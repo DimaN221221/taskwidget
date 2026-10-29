@@ -1,34 +1,74 @@
-# Задачі на день
+# Day Tasks
 
-Чекліст задач по днях з календарем: віджет для Windows і застосунок для Android.
-Обидва показують один і той самий інтерфейс (`src/TaskWidget/wwwroot`) і синхронізуються
-через хмару Supabase — ПК для цього вмикати не треба.
+**A simple daily to-do list that lives on your desktop and in your pocket.** A small always-at-hand widget
+for Windows and an app for Android, with your tasks synced between them.
 
-## Синхронізація (Supabase)
+[Українська версія](README.uk.md)
 
-Кожен пристрій сам обмінюється з хмарою: при запуску, після змін, при поверненні до
-застосунку і щохвилини. Без інтернету все працює й зберігається на пристрої, а зміни
-вивантажуються, щойно з'явиться зв'язок. Стан видно на кнопці з хмаринкою.
+## Features
 
-## Рівні, серії й досягнення
+- **Tasks by day.** Plan today, tomorrow or any date in the calendar; days with tasks are marked in it.
+- **Nothing gets lost.** One click moves all unfinished tasks from past days to today.
+  A single task can be moved to tomorrow or any other day.
+- **Quick editing.** Double-click (double-tap on a phone) to edit a task, drag to reorder,
+  *Alt + ← / →* to switch days.
+- **Levels and achievements.** Earn XP for finished tasks, keep up a daily streak,
+  see a 17-week activity map and unlock 17 achievements.
+- **Sync between PC and phone.** Sign in with the same account on both, and changes show up on the other device.
+  Works offline too: changes are sent as soon as you're back online.
+- **Widget for Windows.** A small frameless window. It can stay on top of other windows and remembers its position.
+- **Light and dark themes** (or follow the system), **English and Ukrainian** interface.
+- **Automatic updates.** When a new version is out, the app offers to install it in one click.
 
-Кнопка «Рів. N 🔥M» у верхній панелі відкриває профіль: звання, XP до наступного рівня, статистику,
-карту активності за 17 тижнів і досягнення.
+## Download
 
-- XP: +10 за виконану задачу, +5 якщо її виконано не пізніше її дня, +25 за закритий день
-  (виконано всі задачі дня, яких щонайменше 3). Рівень N → N+1 коштує 100 + 25·(N−1) XP.
-- Усе рахується із самих задач (поле `doneAt` — коли поставлено галочку), тож прогрес
-  синхронізується разом із задачами без змін у базі, а зняття галочки забирає XP назад.
-- Виконані задачі рахуються й після «Прибрати виконані»: їхні надгробки не стираються через 90 днів,
-  а зберігаються у скороченому вигляді (без тексту).
-- `seen` у збереженні — рівень і досягнення, які цей пристрій уже відсвяткував, щоб тост із конфеті
-  не повторювався.
+| Device | File | Requirements |
+|---|---|---|
+| Windows | [TaskWidget.exe](https://github.com/DimaN221221/taskwidget/releases/latest/download/TaskWidget.exe) | Windows 10 / 11 |
+| Android | [DayTasks.apk](https://github.com/DimaN221221/taskwidget/releases/latest/download/DayTasks.apk) | Android 8 or newer |
 
-## Мови
+All versions and their change notes are on the [Releases](https://github.com/DimaN221221/taskwidget/releases) page.
 
-Українська та англійська. Кнопка «UA / EN» у верхній панелі перемикає мову на цьому пристрої
-(зберігається як `lang`). Нове встановлення бере мову системи; ті, що стояли до появи вибору, лишаються
-українськими. Усі тексти — у словнику `I18N` на початку скрипту в `index.html`: щоб додати мову,
-допишіть туди ще один розділ. Розмітка називає свої ключі в `data-i18n`, `data-i18n-title`, `data-i18n-aria`.
+## Installing
 
+**Windows.** Put `TaskWidget.exe` in any folder you like (for example, *Documents*) and run it. Nothing else is needed.
+If Windows shows *“Windows protected your PC”*, click **More info → Run anyway**: the app is not signed with a paid
+certificate, which is why the warning appears.
 
+**Android.** Open `DayTasks.apk` on your phone. If Android asks, allow installing apps from this source
+(your browser or file manager), then tap **Install**. The app appears as **Tasks**.
+
+## Syncing your PC and phone
+
+1. Tap the cloud button in the top bar.
+2. Choose **Create account**, enter your email and a password (at least 6 characters).
+3. Open the confirmation email and follow the link in it.
+4. Sign in with the same email and password on the other device.
+
+That's it: tasks are synced on launch, after every change and every minute. The cloud button shows when the last sync happened.
+You don't need an account to use the app — without one, tasks are just kept on the device.
+
+## Updates
+
+A few seconds after launch the app checks for a new version. If there is one, a bar appears at the bottom:
+*“Version X is available — Update”*.
+
+- **Windows:** the widget downloads the new version, restarts and keeps all your tasks.
+- **Android:** the app downloads the new version and opens the system installer. The first time,
+  Android asks you to allow **Tasks** to install apps: turn it on, come back and tap **Update** again.
+
+## Where your tasks are kept
+
+- **Windows:** `%APPDATA%\TaskWidget` (the tasks and the window position).
+- **Android:** inside the app's own storage.
+- **Cloud** (only if you signed in): each account sees only its own tasks.
+
+## Uninstalling
+
+- **Windows:** close the widget and delete `TaskWidget.exe`. To remove your data as well, delete the folders
+  `%APPDATA%\TaskWidget` and `%LOCALAPPDATA%\TaskWidget`.
+- **Android:** uninstall **Tasks** like any other app.
+
+---
+
+Building the app yourself or curious how it works? See [DEVELOPMENT.md](DEVELOPMENT.md) (in Ukrainian).
