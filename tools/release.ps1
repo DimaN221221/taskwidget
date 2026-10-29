@@ -1,6 +1,8 @@
 # Build both apps and publish them as GitHub release v<Version> (see release.bat).
 param([string]$Notes = "")
-$ErrorActionPreference = "Stop"
+# git and gh write progress to stderr, which Windows PowerShell 5.1 turns into errors:
+# rely on $LASTEXITCODE instead
+$ErrorActionPreference = "Continue"
 Set-Location (Split-Path $PSScriptRoot)
 
 function Fail($text) { Write-Host "`n$text" -ForegroundColor Red; exit 1 }
@@ -11,7 +13,7 @@ $tag = "v$version"
 Write-Host "=== Release $tag ===" -ForegroundColor Cyan
 
 if (git status --porcelain) { Fail "There are uncommitted changes. Commit them first (the release is built from the commit)." }
-gh release view $tag *> $null
+cmd /c "gh release view $tag >nul 2>&1"
 if ($LASTEXITCODE -eq 0) { Fail "Release $tag already exists. Bump <Version> in src\TaskWidget\TaskWidget.csproj." }
 
 cmd /c "`"$PWD\build.bat`" nopause"
