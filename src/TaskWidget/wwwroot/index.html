@@ -260,6 +260,7 @@
     font-size: 13px;
   }
   .update span { flex: 1; min-width: 0; }
+  .lang-btn { font-size: 11px; font-weight: 700; letter-spacing: .04em; }
   .update .add-btn { flex: none; height: 30px; font-size: 12px; }
   .update .icon-btn { flex: none; }
   .date small {
@@ -851,23 +852,24 @@
 </head>
 <body>
   <div class="bar">
-    <span class="bar-title">Задачі<span class="sync-text" id="syncText" hidden></span></span>
+    <span class="bar-title"><span data-i18n="appShort">Задачі</span><span class="sync-text" id="syncText" hidden></span></span>
     <button class="lvl-chip" id="lvlBtn" type="button" aria-expanded="false" aria-controls="profilePanel">
       <span class="lvl-avatar" id="lvlAvatar" aria-hidden="true"></span><span id="lvlText"></span><span class="lvl-streak" id="lvlStreak" hidden></span>
     </button>
-    <button class="icon-btn sync-btn" id="syncBtn" type="button" aria-label="Синхронізація" aria-expanded="false" aria-controls="syncPanel">
+    <button class="icon-btn sync-btn" id="syncBtn" type="button" aria-label="Синхронізація" data-i18n-aria="sync" aria-expanded="false" aria-controls="syncPanel">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
     </button>
-    <button class="icon-btn" id="themeBtn" type="button" title="Тема" aria-label="Змінити тему">
+    <button class="icon-btn lang-btn" id="langBtn" type="button" aria-label="Змінити мову" data-i18n-aria="changeLang">UA</button>
+    <button class="icon-btn" id="themeBtn" type="button" title="Тема" aria-label="Змінити тему" data-i18n-aria="changeTheme">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
     </button>
-    <button class="icon-btn" id="pinBtn" type="button" title="Поверх усіх вікон" aria-label="Закріпити поверх усіх вікон" aria-pressed="false" hidden>
+    <button class="icon-btn" id="pinBtn" type="button" title="Поверх усіх вікон" aria-label="Закріпити поверх усіх вікон" data-i18n-title="pin" data-i18n-aria="pinAria" aria-pressed="false" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16h14v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>
     </button>
-    <button class="icon-btn" id="minBtn" type="button" title="Згорнути" aria-label="Згорнути" hidden>
+    <button class="icon-btn" id="minBtn" type="button" title="Згорнути" aria-label="Згорнути" data-i18n-title="minimize" data-i18n-aria="minimize" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>
     </button>
-    <button class="icon-btn close" id="closeBtn" type="button" title="Закрити" aria-label="Закрити" hidden>
+    <button class="icon-btn close" id="closeBtn" type="button" title="Закрити" aria-label="Закрити" data-i18n-title="close" data-i18n-aria="close" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
   </div>
@@ -875,16 +877,16 @@
   <header>
     <div class="day-nav">
       <h1 class="date">
-        <button class="date-btn" id="dateBtn" type="button" aria-expanded="false" aria-controls="cal" title="Відкрити календар">
+        <button class="date-btn" id="dateBtn" type="button" aria-expanded="false" aria-controls="cal" title="Відкрити календар" data-i18n-title="openCalendar">
           <span class="date-main"><span id="dateTitle"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
           <small id="dateSub"></small>
         </button>
       </h1>
-      <button class="today-btn" id="todayBtn" type="button" hidden>Сьогодні</button>
-      <button class="icon-btn" id="prevDay" type="button" aria-label="Попередній день" title="Попередній день (Alt+←)">
+      <button class="today-btn" id="todayBtn" type="button" data-i18n="today" hidden>Сьогодні</button>
+      <button class="icon-btn" id="prevDay" type="button" aria-label="Попередній день" title="Попередній день (Alt+←)" data-i18n-aria="prevDay" data-i18n-title="prevDayKey">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
       </button>
-      <button class="icon-btn" id="nextDay" type="button" aria-label="Наступний день" title="Наступний день (Alt+→)">
+      <button class="icon-btn" id="nextDay" type="button" aria-label="Наступний день" title="Наступний день (Alt+→)" data-i18n-aria="nextDay" data-i18n-title="nextDayKey">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </button>
     </div>
@@ -894,13 +896,13 @@
     </div>
   </header>
 
-  <div class="cal" id="cal" role="dialog" aria-label="Календар" hidden>
+  <div class="cal" id="cal" role="dialog" aria-label="Календар" data-i18n-aria="calendar" hidden>
     <div class="cal-head">
-      <button class="icon-btn" id="calPrev" type="button" aria-label="Попередній місяць">
+      <button class="icon-btn" id="calPrev" type="button" aria-label="Попередній місяць" data-i18n-aria="prevMonth">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
       </button>
       <span class="cal-title" id="calTitle" aria-live="polite"></span>
-      <button class="icon-btn" id="calNext" type="button" aria-label="Наступний місяць">
+      <button class="icon-btn" id="calNext" type="button" aria-label="Наступний місяць" data-i18n-aria="nextMonth">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </button>
     </div>
@@ -910,8 +912,8 @@
 
   <div class="panel" id="syncPanel" role="dialog" aria-labelledby="syncTitle" hidden>
     <div class="panel-head">
-      <strong id="syncTitle">Синхронізація</strong>
-      <button class="icon-btn" id="syncClose" type="button" aria-label="Закрити">
+      <strong id="syncTitle" data-i18n="sync">Синхронізація</strong>
+      <button class="icon-btn" id="syncClose" type="button" aria-label="Закрити" data-i18n-aria="close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
@@ -920,8 +922,8 @@
 
   <div class="panel" id="profilePanel" role="dialog" aria-labelledby="profileTitle" hidden>
     <div class="panel-head">
-      <strong id="profileTitle">Профіль</strong>
-      <button class="icon-btn" id="profileClose" type="button" aria-label="Закрити">
+      <strong id="profileTitle" data-i18n="profile">Профіль</strong>
+      <button class="icon-btn" id="profileClose" type="button" aria-label="Закрити" data-i18n-aria="close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
@@ -929,20 +931,20 @@
   </div>
 
   <form class="add" id="addForm" autocomplete="off">
-    <label for="newTask" class="sr-only">Нова задача</label>
+    <label for="newTask" class="sr-only" data-i18n="newTask">Нова задача</label>
     <input id="newTask" type="text" placeholder="Що треба зробити?" maxlength="300">
     <button class="add-btn" id="addBtn" type="submit" disabled>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-      Додати
+      <span data-i18n="add">Додати</span>
     </button>
   </form>
 
   <main>
     <div class="carry" id="carry" hidden>
       <span id="carryText"></span>
-      <button type="button" id="carryBtn" aria-label="Перенести невиконані задачі на сьогодні">На сьогодні</button>
+      <button type="button" id="carryBtn" aria-label="Перенести невиконані задачі на сьогодні" data-i18n-aria="carryAria" data-i18n="carry">На сьогодні</button>
     </div>
-    <ul id="list" aria-label="Список задач"></ul>
+    <ul id="list" aria-label="Список задач" data-i18n-aria="taskList"></ul>
     <div class="empty" id="empty" hidden>
       <strong id="emptyTitle"></strong>
       <span id="emptyText"></span>
@@ -953,24 +955,24 @@
   <div class="update" id="updateBar" role="status" hidden>
     <span id="updateText"></span>
     <button class="add-btn" id="updateBtn" type="button">Оновити</button>
-    <button class="icon-btn" id="updateClose" type="button" aria-label="Нагадати пізніше" title="Нагадати пізніше">
+    <button class="icon-btn" id="updateClose" type="button" aria-label="Нагадати пізніше" title="Нагадати пізніше" data-i18n-aria="later" data-i18n-title="later">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
   </div>
 
   <footer>
     <span id="editHint">Двічі клацніть — редагувати</span>
-    <button class="link-btn" id="clearBtn" type="button" disabled>Прибрати виконані</button>
+    <button class="link-btn" id="clearBtn" type="button" data-i18n="clearDone" disabled>Прибрати виконані</button>
   </footer>
 
-  <div class="menu" id="moveMenu" role="menu" aria-label="Перенести задачу" hidden>
+  <div class="menu" id="moveMenu" role="menu" aria-label="Перенести задачу" data-i18n-aria="moveTask" hidden>
     <button type="button" role="menuitem" id="moveNext">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       <span id="moveNextLabel">На завтра</span><small id="moveNextDate"></small>
     </button>
     <button type="button" role="menuitem" id="movePick">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-      <span>Інший день…</span>
+      <span data-i18n="otherDay">Інший день…</span>
     </button>
   </div>
 
@@ -981,7 +983,7 @@
 
   <template id="taskTpl">
     <li class="task">
-      <button class="grip" type="button" aria-label="Перемістити задачу" title="Перетягніть, щоб перемістити (або ↑ / ↓)">
+      <button class="grip" type="button" aria-label="Перемістити задачу" title="Перетягніть, щоб перемістити (або ↑ / ↓)" data-i18n-aria="reorder" data-i18n-title="reorderHint">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>
       </button>
       <label class="check">
@@ -989,10 +991,10 @@
         <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
       </label>
       <div class="text"><span></span></div>
-      <button class="icon-btn move" type="button" aria-label="Перенести задачу" title="Перенести на інший день" aria-haspopup="menu" aria-expanded="false">
+      <button class="icon-btn move" type="button" aria-label="Перенести задачу" title="Перенести на інший день" data-i18n-aria="moveTask" data-i18n-title="moveTitle" aria-haspopup="menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><path d="M21 11V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"/><path d="M3 10h18"/><path d="M15 18h7"/><path d="m19 15 3 3-3 3"/></svg>
       </button>
-      <button class="icon-btn del" type="button" aria-label="Видалити задачу" title="Видалити">
+      <button class="icon-btn del" type="button" aria-label="Видалити задачу" title="Видалити" data-i18n-aria="deleteTask" data-i18n-title="delete">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
       </button>
     </li>
@@ -1005,12 +1007,254 @@
   const tpl = $("taskTpl");
   const STORE_KEY = "day-tasks-v1";
 
+  // ---------- languages ----------
+  // Every text of the interface, by key. t("key", ...args) picks the current language;
+  // a value can be a function of the args. Elements in the markup name their key in
+  // data-i18n (text), data-i18n-title and data-i18n-aria (aria-label).
+  const ukTasks = (n) =>
+    n % 10 === 1 && n % 100 !== 11 ? "задача"
+    : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? "задачі"
+    : "задач";
+  const I18N = {
+    uk: {
+      locale: "uk-UA",
+      appName: "Задачі на день", appShort: "Задачі",
+      changeLang: "Змінити мову", langTitle: "Мова: українська (English — натисніть)",
+      sync: "Синхронізація", changeTheme: "Змінити тему",
+      theme: (name) => `Тема: ${name}`, themeNames: { auto: "як у системі", light: "світла", dark: "темна" },
+      pin: "Поверх усіх вікон", pinAria: "Закріпити поверх усіх вікон", minimize: "Згорнути", close: "Закрити",
+      openCalendar: "Відкрити календар", today: "Сьогодні",
+      prevDay: "Попередній день", prevDayKey: "Попередній день (Alt+←)",
+      nextDay: "Наступний день", nextDayKey: "Наступний день (Alt+→)",
+      calendar: "Календар", prevMonth: "Попередній місяць", nextMonth: "Наступний місяць",
+      profile: "Профіль", newTask: "Нова задача", add: "Додати",
+      carry: "На сьогодні", carryAria: "Перенести невиконані задачі на сьогодні", taskList: "Список задач",
+      later: "Нагадати пізніше",
+      editHint: "Двічі клацніть — редагувати", editHintTouch: "Двічі торкніться — редагувати",
+      clearDone: "Прибрати виконані", moveTask: "Перенести задачу", otherDay: "Інший день…",
+      reorder: "Перемістити задачу", reorderHint: "Перетягніть, щоб перемістити (або ↑ / ↓)",
+      moveTitle: "Перенести на інший день", deleteTask: "Видалити задачу", delete: "Видалити",
+
+      relative: { 0: "Сьогодні", 1: "Завтра", [-1]: "Вчора" },
+      placeholder: "Що треба зробити?", placeholderDay: (d) => `Задача на ${d}`,
+      tasks: ukTasks,
+      count: (done, total) => `${done} з ${total}`,
+      emptyPast: "У цей день задач не було", emptyTitle: "Список порожній",
+      emptyToday: "Додайте першу задачу на сьогодні", emptyFuture: "Додайте задачі, щоб спланувати цей день",
+      emptyPastText: "Можна дописати їх заднім числом",
+      unfinished: (n) => `Невиконаних: ${n}`, completed: "Виконано",
+      movedToPos: (a, b) => `Переміщено на позицію ${a} з ${b}`, position: (a, b) => `Позиція ${a} з ${b}`,
+      carried: (n) => `Перенесено на сьогодні: ${n}`,
+      weekdaysShort: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
+      calDay: (total, done) => `, ${total} ${ukTasks(total)}, виконано ${done}`,
+      moveHint: ["Перенести «", "» на…"],
+      relDay: { 0: "сьогодні", 1: "завтра", 2: "післязавтра" },
+      toTomorrow: "На завтра", toNextDay: "На наступний день",
+      movedTo: (d) => `Перенесено на ${d}`, show: "Показати",
+
+      ranks: ["Новачок", "Учень", "Трудяга", "Майстер справ", "Ветеран", "Гуру продуктивності", "Легенда"],
+      ach: {
+        first: ["Перший крок", "Виконати першу задачу"],
+        done10: ["Розігрів", "Виконати 10 задач"],
+        done50: ["Півсотні", "Виконати 50 задач"],
+        done100: ["Сотня", "Виконати 100 задач"],
+        done500: ["Машина", "Виконати 500 задач"],
+        done1000: ["Тисячник", "Виконати 1000 задач"],
+        streak3: ["Іскра", "3 дні поспіль з виконаними задачами"],
+        streak7: ["Тиждень у вогні", "7 днів поспіль з виконаними задачами"],
+        streak30: ["Місяць без перерви", "30 днів поспіль з виконаними задачами"],
+        closed1: ["Чистий аркуш", (min) => `Закрити день: виконати всі задачі дня (від ${min})`],
+        closed10: ["Перфекціоніст", "Закрити 10 днів"],
+        week: ["Ідеальний тиждень", "7 днів поспіль без невиконаних задач"],
+        busy: ["Продуктивний день", "Виконати 10 задач за один день"],
+        ahead: ["Наперед", "Виконати 5 задач раніше їхнього дня"],
+        early: ["Рання пташка", "Виконати задачу до 9:00"],
+        night: ["Нічна сова", "Виконати задачу після 23:00"],
+        lvl10: ["Десятка", "Досягти 10 рівня"],
+      },
+      dayClosed: (xp) => `День закрито · +${xp} XP`,
+      lvlShort: (n) => `Рів. ${n}`,
+      lvlTitle: (rank, into, need, next) => `${rank} · ${into} / ${need} XP до рівня ${next}`,
+      lvlAria: (level, into, need, streak) => `Профіль: рівень ${level}, ${into} з ${need} XP` + (streak ? `, серія ${streak} дн.` : ""),
+      newLevel: (n) => `Новий рівень: ${n}!`, andMore: (n) => `і ще ${n}`,
+      level: (n) => `Рівень ${n}`,
+      statDone: "задач виконано", statStreak: (best) => `серія днів · рекорд ${best}`,
+      statClosed: "закритих днів", statBestDay: "найпродуктивніший день",
+      heatAria: (weeks, n) => `Активність за ${weeks} тижнів: виконано ${n} ${ukTasks(n)}`,
+      less: "менше", more: "більше",
+      xpNext: (xp, rank, min) => `Усього ${xp} XP. Звання «${rank}» — з ${min} рівня.`,
+      xpMax: (xp) => `Усього ${xp} XP. Найвище звання здобуто!`,
+      activity: "Активність", activityCount: (n, weeks) => `${n} за ${weeks} тиж.`, achievements: "Досягнення",
+      xpRules: (task, onTime, day, min) => `XP: +${task} за задачу, +${onTime} якщо виконано вчасно, +${day} за закритий день (усі задачі дня, від ${min}).`,
+
+      authInvalid: "Неправильна пошта або пароль",
+      authUnconfirmed: "Пошту ще не підтверджено — відкрийте лист від Supabase",
+      authExists: "Такий акаунт уже є — просто увійдіть",
+      authPassword: "Пароль має бути щонайменше з 6 символів",
+      authEmail: "Перевірте адресу пошти",
+      authTooMany: "Забагато спроб — зачекайте хвилину",
+      error: (status) => `Помилка ${status}`,
+      noTable: "У базі немає таблиці tasks — виконайте supabase/schema.sql",
+      serverSaid: (status) => `Сервер відповів ${status}`,
+      sessionEnded: "Сесія завершилась — увійдіть знову",
+      noSyncServer: (detail) => `Немає зв'язку з сервером синхронізації (${detail})`,
+      syncFailed: (detail) => `Збій синхронізації: ${detail}`,
+      cloud: {
+        off: "хмару не налаштовано", signedout: "не виконано вхід", busy: "синхронізація…",
+        ok: (time) => `синхронізовано ${time}`, offline: (time) => `офлайн · ${time}`,
+        noInternet: "немає інтернету", error: "помилка синхронізації",
+      },
+      savedHere: ". Зміни збережено на пристрої.",
+      noCloud: "Хмару ще не підключено: у файлі cloud-config.js немає адреси й ключа проєкту Supabase.",
+      signIn: "Увійти", signUp: "Створити акаунт",
+      mailSent: (email) => `Надіслали лист на ${email}. Підтвердьте адресу за посиланням із листа, потім увійдіть тут.`,
+      noServer: (detail) => `Немає зв'язку з сервером (${detail})`, failure: (detail) => `Збій: ${detail}`,
+      signInHint: "Увійдіть однаковим акаунтом на ПК і телефоні — задачі будуть спільні.",
+      email: "Пошта", password: "Пароль",
+      syncing: "Синхронізація…", syncedAt: (time) => `Синхронізовано о ${time}`,
+      offlinePanel: (detail) => `Зміни збережено тут і підуть у хмару, щойно з'явиться зв'язок. ${detail}`,
+      account: "Акаунт: ", syncNow: "Синхронізувати", signOut: "Вийти",
+
+      update: "Оновити", updInstall: "Встановити", updRetry: "Ще раз",
+      updAvailable: (v) => `Доступна версія ${v}`, updDownloading: (pct) => `Завантаження…${pct}`,
+      updRestarting: "Перезапуск…", updConfirm: (v) => `Підтвердіть встановлення версії ${v}`,
+      updPermission: "Дозвольте встановлювати застосунки з «Задачі» й поверніться сюди",
+      updFailed: (detail) => `Не вдалося оновити: ${detail}`,
+      updErr: {
+        source: "Оновлення дозволено лише з релізів на GitHub",
+        checksum: "Контрольна сума файлу не збігається. Спробуйте ще раз.",
+        debug: "Оновлення працюють лише в зібраній програмі",
+        space: "Немає місця для завантаження",
+        http: (status) => `Сервер оновлень відповів ${status}`,
+      },
+    },
+
+    en: {
+      locale: "en-GB",
+      appName: "Day Tasks", appShort: "Tasks",
+      changeLang: "Change language", langTitle: "Language: English (українська — click)",
+      sync: "Sync", changeTheme: "Change theme",
+      theme: (name) => `Theme: ${name}`, themeNames: { auto: "system", light: "light", dark: "dark" },
+      pin: "Always on top", pinAria: "Keep on top of other windows", minimize: "Minimize", close: "Close",
+      openCalendar: "Open calendar", today: "Today",
+      prevDay: "Previous day", prevDayKey: "Previous day (Alt+←)",
+      nextDay: "Next day", nextDayKey: "Next day (Alt+→)",
+      calendar: "Calendar", prevMonth: "Previous month", nextMonth: "Next month",
+      profile: "Profile", newTask: "New task", add: "Add",
+      carry: "To today", carryAria: "Move unfinished tasks to today", taskList: "Task list",
+      later: "Remind me later",
+      editHint: "Double-click to edit", editHintTouch: "Double-tap to edit",
+      clearDone: "Clear completed", moveTask: "Move task", otherDay: "Another day…",
+      reorder: "Reorder task", reorderHint: "Drag to reorder (or ↑ / ↓)",
+      moveTitle: "Move to another day", deleteTask: "Delete task", delete: "Delete",
+
+      relative: { 0: "Today", 1: "Tomorrow", [-1]: "Yesterday" },
+      placeholder: "What needs doing?", placeholderDay: (d) => `Task for ${d}`,
+      tasks: (n) => (n === 1 ? "task" : "tasks"),
+      count: (done, total) => `${done} of ${total}`,
+      emptyPast: "No tasks on this day", emptyTitle: "Nothing here yet",
+      emptyToday: "Add your first task for today", emptyFuture: "Add tasks to plan this day",
+      emptyPastText: "You can still add them afterwards",
+      unfinished: (n) => `Unfinished: ${n}`, completed: "Completed",
+      movedToPos: (a, b) => `Moved to position ${a} of ${b}`, position: (a, b) => `Position ${a} of ${b}`,
+      carried: (n) => `Moved to today: ${n}`,
+      weekdaysShort: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+      calDay: (total, done) => `, ${total} ${total === 1 ? "task" : "tasks"}, ${done} done`,
+      moveHint: ["Move “", "” to…"],
+      relDay: { 0: "today", 1: "tomorrow", 2: "the day after tomorrow" },
+      toTomorrow: "Tomorrow", toNextDay: "Next day",
+      movedTo: (d) => `Moved to ${d}`, show: "Show",
+
+      ranks: ["Novice", "Apprentice", "Hard worker", "Task master", "Veteran", "Productivity guru", "Legend"],
+      ach: {
+        first: ["First step", "Complete your first task"],
+        done10: ["Warm-up", "Complete 10 tasks"],
+        done50: ["Half a hundred", "Complete 50 tasks"],
+        done100: ["Century", "Complete 100 tasks"],
+        done500: ["Machine", "Complete 500 tasks"],
+        done1000: ["Summit", "Complete 1000 tasks"],
+        streak3: ["Spark", "3 days in a row with completed tasks"],
+        streak7: ["Week on fire", "7 days in a row with completed tasks"],
+        streak30: ["Unbroken month", "30 days in a row with completed tasks"],
+        closed1: ["Clean slate", (min) => `Close a day: finish every task of the day (${min} or more)`],
+        closed10: ["Perfectionist", "Close 10 days"],
+        week: ["Perfect week", "7 days in a row with nothing left unfinished"],
+        busy: ["Productive day", "Complete 10 tasks in one day"],
+        ahead: ["Ahead of time", "Complete 5 tasks before their day"],
+        early: ["Early bird", "Complete a task before 9:00"],
+        night: ["Night owl", "Complete a task after 23:00"],
+        lvl10: ["Top ten", "Reach level 10"],
+      },
+      dayClosed: (xp) => `Day closed · +${xp} XP`,
+      lvlShort: (n) => `Lv. ${n}`,
+      lvlTitle: (rank, into, need, next) => `${rank} · ${into} / ${need} XP to level ${next}`,
+      lvlAria: (level, into, need, streak) => `Profile: level ${level}, ${into} of ${need} XP` + (streak ? `, ${streak}-day streak` : ""),
+      newLevel: (n) => `Level up: ${n}!`, andMore: (n) => `and ${n} more`,
+      level: (n) => `Level ${n}`,
+      statDone: "tasks completed", statStreak: (best) => `day streak · best ${best}`,
+      statClosed: "days closed", statBestDay: "most productive day",
+      heatAria: (weeks, n) => `Activity over ${weeks} weeks: ${n} ${n === 1 ? "task" : "tasks"} completed`,
+      less: "less", more: "more",
+      xpNext: (xp, rank, min) => `${xp} XP in total. “${rank}” from level ${min}.`,
+      xpMax: (xp) => `${xp} XP in total. Top rank reached!`,
+      activity: "Activity", activityCount: (n, weeks) => `${n} in ${weeks} wks`, achievements: "Achievements",
+      xpRules: (task, onTime, day, min) => `XP: +${task} per task, +${onTime} if done on time, +${day} per closed day (every task of the day, ${min} or more).`,
+
+      authInvalid: "Wrong email or password",
+      authUnconfirmed: "Email not confirmed yet — open the message from Supabase",
+      authExists: "This account already exists — just sign in",
+      authPassword: "The password needs at least 6 characters",
+      authEmail: "Check the email address",
+      authTooMany: "Too many attempts — wait a minute",
+      error: (status) => `Error ${status}`,
+      noTable: "The database has no tasks table — run supabase/schema.sql",
+      serverSaid: (status) => `The server answered ${status}`,
+      sessionEnded: "Session ended — sign in again",
+      noSyncServer: (detail) => `Can't reach the sync server (${detail})`,
+      syncFailed: (detail) => `Sync failed: ${detail}`,
+      cloud: {
+        off: "cloud not set up", signedout: "not signed in", busy: "syncing…",
+        ok: (time) => `synced ${time}`, offline: (time) => `offline · ${time}`,
+        noInternet: "no internet", error: "sync error",
+      },
+      savedHere: ". Changes are saved on this device.",
+      noCloud: "The cloud isn't connected yet: cloud-config.js has no Supabase project address and key.",
+      signIn: "Sign in", signUp: "Create account",
+      mailSent: (email) => `We sent a message to ${email}. Confirm the address with the link in it, then sign in here.`,
+      noServer: (detail) => `Can't reach the server (${detail})`, failure: (detail) => `Failure: ${detail}`,
+      signInHint: "Sign in with the same account on your PC and phone to share tasks.",
+      email: "Email", password: "Password",
+      syncing: "Syncing…", syncedAt: (time) => `Synced at ${time}`,
+      offlinePanel: (detail) => `Changes are saved here and go to the cloud as soon as you're online. ${detail}`,
+      account: "Account: ", syncNow: "Sync now", signOut: "Sign out",
+
+      update: "Update", updInstall: "Install", updRetry: "Try again",
+      updAvailable: (v) => `Version ${v} is available`, updDownloading: (pct) => `Downloading…${pct}`,
+      updRestarting: "Restarting…", updConfirm: (v) => `Confirm installing version ${v}`,
+      updPermission: "Allow installing apps from “Tasks”, then come back here",
+      updFailed: (detail) => `Couldn't update: ${detail}`,
+      updErr: {
+        source: "Updates are only allowed from the GitHub releases",
+        checksum: "The file's checksum doesn't match. Please try again.",
+        debug: "Updates only work in the built app",
+        space: "No room to download the update",
+        http: (status) => `The update server answered ${status}`,
+      },
+    },
+  };
+  let lang = "uk";
+  function t(key, ...args) {
+    const v = key in I18N[lang] ? I18N[lang][key] : I18N.uk[key];
+    return typeof v === "function" ? v(...args) : v;
+  }
+  const locale = () => t("locale");
+
   // items: { id: { id, text, done, doneAt?: when ticked (ms), day: "YYYY-MM-DD", o: order, u: last change (ms), deleted? } }
   // Every change stamps `u`; two copies (PC, phone) merge per task — the newer `u` wins.
   // Deleted tasks stay as tombstones for a while so the deletion reaches the other device;
   // finished ones are kept for good in short form, because they still count towards XP.
   // seen: the level and achievements this device has already celebrated.
-  let state = { items: {}, theme: "auto", onTop: false, seen: null };
+  let state = { items: {}, theme: "auto", lang: "auto", onTop: false, seen: null };
   const TOMBSTONE_DAYS = 90;
 
   // ---------- dates (local time, keys like "2026-10-24") ----------
@@ -1069,6 +1313,7 @@
     if (saved) {
       state.items = migrate(saved);
       if (saved.theme) state.theme = saved.theme;
+      state.lang = saved.lang || "uk"; // saved before there was a choice: it was Ukrainian
       state.onTop = !!saved.onTop;
       state.seen = saved.seen || null;
       if (saved.sync) {
@@ -1089,7 +1334,7 @@
       else if (t.done) items[t.id] = { id: t.id, done: true, doneAt: t.doneAt, day: t.day, o: t.o, u: t.u, deleted: true };
     }
     return {
-      version: 2, items, theme: state.theme, onTop: state.onTop, seen: state.seen,
+      version: 2, items, theme: state.theme, lang: state.lang, onTop: state.onTop, seen: state.seen,
       sync: { cursor: state.cursor || null, dirty: [...dirty] }, // this device's progress with the cloud
     };
   }
@@ -1129,43 +1374,41 @@
   // ---------- header ----------
   function dayMonth(key) {
     const d = dateOf(key);
-    const text = d.toLocaleDateString("uk-UA", { day: "numeric", month: "long" });
+    const text = d.toLocaleDateString(locale(), { day: "numeric", month: "long" });
     return d.getFullYear() === dateOf(today).getFullYear() ? text : `${text} ${d.getFullYear()}`;
   }
 
   function renderHeader() {
     const diff = dayDiff(view, today);
-    const weekday = cap(dateOf(view).toLocaleDateString("uk-UA", { weekday: "long" }));
-    const relative = { 0: "Сьогодні", 1: "Завтра", [-1]: "Вчора" }[diff];
+    const weekday = cap(dateOf(view).toLocaleDateString(locale(), { weekday: "long" }));
+    const relative = t("relative")[diff];
     $("dateTitle").textContent = relative || weekday;
-    $("dateSub").textContent = relative ? `${weekday.toLowerCase()}, ${dayMonth(view)}` : dayMonth(view);
+    // "четвер, 29 жовтня" but "Thursday, 29 October": English capitalises day names
+    $("dateSub").textContent = relative ? `${lang === "uk" ? weekday.toLowerCase() : weekday}, ${dayMonth(view)}` : dayMonth(view);
     $("todayBtn").hidden = diff === 0;
-    input.placeholder = diff === 0 ? "Що треба зробити?" : `Задача на ${dayMonth(view)}`;
+    input.placeholder = diff === 0 ? t("placeholder") : t("placeholderDay", dayMonth(view));
   }
 
-  const tasksWord = (n) =>
-    n % 10 === 1 && n % 100 !== 11 ? "задача"
-    : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? "задачі"
-    : "задач";
+  const tasksWord = (n) => t("tasks", n);
 
   function renderProgress() {
     const total = state.tasks.length;
     const done = state.tasks.filter(t => t.done).length;
-    $("count").textContent = `${done} з ${total}`;
+    $("count").textContent = t("count", done, total);
     $("fill").style.transform = `scaleX(${total ? done / total : 0})`;
     $("clearBtn").disabled = done === 0;
 
     const diff = dayDiff(view, today);
     $("empty").hidden = total > 0;
-    $("emptyTitle").textContent = diff < 0 ? "У цей день задач не було" : "Список порожній";
+    $("emptyTitle").textContent = diff < 0 ? t("emptyPast") : t("emptyTitle");
     $("emptyText").textContent =
-      diff === 0 ? "Додайте першу задачу на сьогодні"
-      : diff > 0 ? "Додайте задачі, щоб спланувати цей день"
-      : "Можна дописати їх заднім числом";
+      diff === 0 ? t("emptyToday")
+      : diff > 0 ? t("emptyFuture")
+      : t("emptyPastText");
 
     const left = total - done;
     $("carry").hidden = !(diff < 0 && left > 0);
-    $("carryText").textContent = `Невиконаних: ${left}`;
+    $("carryText").textContent = t("unfinished", left);
     renderGame();
   }
 
@@ -1222,7 +1465,7 @@
   const divider = document.createElement("li");
   divider.className = "divider";
   divider.setAttribute("aria-hidden", "true");
-  divider.textContent = "Виконано";
+  divider.textContent = t("completed");
 
   function snapshot() {
     const tops = new Map();
@@ -1323,7 +1566,7 @@
     if (done) {
       if (game.xp > before.xp) floatXp(li, game.xp - before.xp);
       const closed = game.bonusDays.has(task.day) && !before.bonusDays.has(task.day);
-      celebrate(closed ? [`День закрито · +${XP.day} XP`] : []);
+      celebrate(closed ? [t("dayClosed", XP.day)] : []);
     }
     save();
 
@@ -1444,7 +1687,7 @@
     setTimeout(() => li.classList.remove("dragging"), reducedMotion() ? 0 : 200);
 
     if (from !== to) {
-      announce(`Переміщено на позицію ${to + 1} з ${ids.length}`);
+      announce(t("movedToPos", to + 1, ids.length));
       save();
     }
   }
@@ -1473,7 +1716,7 @@
     sync({ animate: true });
     e.target.focus({ preventScroll: true });
     li.scrollIntoView({ block: "nearest" });
-    announce(`Позиція ${to + 1} з ${ids.length}`);
+    announce(t("position", to + 1, ids.length));
     save();
   });
 
@@ -1559,7 +1802,7 @@
     const start = maxOrder(dayTasks(today).filter(t => !t.done)) + 1;
     moving.forEach((t, i) => touch(t, { day: today, o: start + i }));
     sync({ animate: true });
-    announce(`Перенесено на сьогодні: ${moving.length}`);
+    announce(t("carried", moving.length));
     save();
   });
 
@@ -1570,13 +1813,12 @@
   let calPick = null;  // task id while choosing a day to move it to
 
   const monthStart = (key) => key.slice(0, 8) + "01";
-  const WEEKDAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
 
   function renderCalendar() {
     const first = dateOf(calMonth);
-    $("calTitle").textContent = `${cap(first.toLocaleDateString("uk-UA", { month: "long" }))} ${first.getFullYear()}`;
+    $("calTitle").textContent = `${cap(first.toLocaleDateString(locale(), { month: "long" }))} ${first.getFullYear()}`;
 
-    const cells = WEEKDAYS.map(w => {
+    const cells = t("weekdaysShort").map(w => {
       const el = document.createElement("div");
       el.className = "cal-wd";
       el.textContent = w;
@@ -1610,8 +1852,8 @@
       b.classList.toggle("all-done", total > 0 && done === total);
       // the task is already there; stays focusable so arrow keys can pass over it
       if (calPick && key === find(calPick).day) b.setAttribute("aria-disabled", "true");
-      let label = cap(d.toLocaleDateString("uk-UA", { weekday: "long", day: "numeric", month: "long" }));
-      if (total) label += `, ${total} ${tasksWord(total)}, виконано ${done}`;
+      let label = cap(d.toLocaleDateString(locale(), { weekday: "long", day: "numeric", month: "long" }));
+      if (total) label += t("calDay", total, done);
       b.setAttribute("aria-label", label);
       if (key === view) b.setAttribute("aria-current", "date");
       cells.push(b);
@@ -1634,7 +1876,7 @@
     const hint = $("calHint");
     hint.hidden = !pickFor;
     if (pickFor) {
-      hint.replaceChildren("Перенести «", el("strong", { textContent: find(pickFor).text }), "» на…");
+      hint.replaceChildren(t("moveHint")[0], el("strong", { textContent: find(pickFor).text }), t("moveHint")[1]);
       hint.title = find(pickFor).text;
     }
     calFocus = pickFor ? addDays(view, 1) : view;
@@ -1716,16 +1958,16 @@
   const nextDayFor = (task) => addDays(task.day < today ? today : task.day, 1);
 
   function relativeDay(key) {
-    const rel = { 0: "сьогодні", 1: "завтра", 2: "післязавтра" }[dayDiff(key, today)];
-    return rel || dateOf(key).toLocaleDateString("uk-UA", { weekday: "short", day: "numeric", month: "long" });
+    const rel = t("relDay")[dayDiff(key, today)];
+    return rel || dateOf(key).toLocaleDateString(locale(), { weekday: "short", day: "numeric", month: "long" });
   }
 
   function openMoveMenu(li, button) {
     closeMoveMenu(false);
     const task = find(li.dataset.id);
     const next = nextDayFor(task);
-    $("moveNextLabel").textContent = dayDiff(next, today) === 1 ? "На завтра" : "На наступний день";
-    $("moveNextDate").textContent = dateOf(next).toLocaleDateString("uk-UA", { weekday: "short", day: "numeric", month: "short" });
+    $("moveNextLabel").textContent = dayDiff(next, today) === 1 ? t("toTomorrow") : t("toNextDay");
+    $("moveNextDate").textContent = dateOf(next).toLocaleDateString(locale(), { weekday: "short", day: "numeric", month: "short" });
     menuFor = { id: task.id, button };
     button.setAttribute("aria-expanded", "true");
 
@@ -1792,7 +2034,7 @@
     // the data changes and is saved right away; only the row's exit is animated
     touch(task, { day, o });
     save();
-    showToast(`Перенесено на ${relativeDay(day)}`, { label: "Показати", run: () => goTo(day) });
+    showToast(t("movedTo", relativeDay(day)), { label: t("show"), run: () => goTo(day) });
     (next ? next.querySelector(".move") || next.querySelector("input") : input).focus({ preventScroll: true });
 
     const done = () => sync({ animate: true });
@@ -1835,35 +2077,42 @@
   const CLOSED_MIN = 3;                          // a closed day needs at least this many tasks
   const levelNeed = (level) => 100 + 25 * (level - 1); // XP from `level` to the next one
   const RANKS = [
-    { min: 1, icon: "🌱", name: "Новачок" },
-    { min: 3, icon: "🌿", name: "Учень" },
-    { min: 6, icon: "🌳", name: "Трудяга" },
-    { min: 10, icon: "⚔️", name: "Майстер справ" },
-    { min: 15, icon: "🛡️", name: "Ветеран" },
-    { min: 20, icon: "🔮", name: "Гуру продуктивності" },
-    { min: 30, icon: "👑", name: "Легенда" },
+    { min: 1, icon: "🌱" },
+    { min: 3, icon: "🌿" },
+    { min: 6, icon: "🌳" },
+    { min: 10, icon: "⚔️" },
+    { min: 15, icon: "🛡️" },
+    { min: 20, icon: "🔮" },
+    { min: 30, icon: "👑" },
   ];
+  RANKS.forEach((r, i) => Object.defineProperty(r, "name", { get: () => t("ranks")[i] }));
   const rankOf = (level) => RANKS.filter(r => r.min <= level).pop();
   const ACHIEVEMENTS = [
-    { id: "first",    icon: "🌱", name: "Перший крок",        desc: "Виконати першу задачу",                 goal: 1,    val: g => g.total },
-    { id: "done10",   icon: "✋", name: "Розігрів",           desc: "Виконати 10 задач",                     goal: 10,   val: g => g.total },
-    { id: "done50",   icon: "💪", name: "Півсотні",           desc: "Виконати 50 задач",                     goal: 50,   val: g => g.total },
-    { id: "done100",  icon: "💯", name: "Сотня",              desc: "Виконати 100 задач",                    goal: 100,  val: g => g.total },
-    { id: "done500",  icon: "⚙️", name: "Машина",             desc: "Виконати 500 задач",                    goal: 500,  val: g => g.total },
-    { id: "done1000", icon: "🏔️", name: "Тисячник",           desc: "Виконати 1000 задач",                   goal: 1000, val: g => g.total },
-    { id: "streak3",  icon: "🔥", name: "Іскра",              desc: "3 дні поспіль з виконаними задачами",   goal: 3,    val: g => g.bestStreak },
-    { id: "streak7",  icon: "🔥", name: "Тиждень у вогні",    desc: "7 днів поспіль з виконаними задачами",  goal: 7,    val: g => g.bestStreak },
-    { id: "streak30", icon: "☄️", name: "Місяць без перерви", desc: "30 днів поспіль з виконаними задачами", goal: 30,   val: g => g.bestStreak },
-    { id: "closed1",  icon: "✅", name: "Чистий аркуш",       desc: `Закрити день: виконати всі задачі дня (від ${CLOSED_MIN})`, goal: 1, val: g => g.bonusDays.size },
-    { id: "closed10", icon: "🎯", name: "Перфекціоніст",      desc: "Закрити 10 днів",                       goal: 10,   val: g => g.bonusDays.size },
-    { id: "week",     icon: "🗓️", name: "Ідеальний тиждень",  desc: "7 днів поспіль без невиконаних задач",  goal: 7,    val: g => g.bestClearRun },
-    { id: "busy",     icon: "⚡", name: "Продуктивний день",  desc: "Виконати 10 задач за один день",        goal: 10,   val: g => g.maxPerDay },
-    { id: "ahead",    icon: "⏩", name: "Наперед",            desc: "Виконати 5 задач раніше їхнього дня",   goal: 5,    val: g => g.ahead },
-    { id: "early",    icon: "🌅", name: "Рання пташка",       desc: "Виконати задачу до 9:00",               goal: 1,    val: g => g.early },
-    { id: "night",    icon: "🦉", name: "Нічна сова",         desc: "Виконати задачу після 23:00",           goal: 1,    val: g => g.night },
-    { id: "lvl10",    icon: "⭐", name: "Десятка",            desc: "Досягти 10 рівня",                      goal: 10,   val: g => g.level },
+    { id: "first",    icon: "🌱", goal: 1,    val: g => g.total },
+    { id: "done10",   icon: "✋", goal: 10,   val: g => g.total },
+    { id: "done50",   icon: "💪", goal: 50,   val: g => g.total },
+    { id: "done100",  icon: "💯", goal: 100,  val: g => g.total },
+    { id: "done500",  icon: "⚙️", goal: 500,  val: g => g.total },
+    { id: "done1000", icon: "🏔️", goal: 1000, val: g => g.total },
+    { id: "streak3",  icon: "🔥", goal: 3,    val: g => g.bestStreak },
+    { id: "streak7",  icon: "🔥", goal: 7,    val: g => g.bestStreak },
+    { id: "streak30", icon: "☄️", goal: 30,   val: g => g.bestStreak },
+    { id: "closed1",  icon: "✅", goal: 1, val: g => g.bonusDays.size },
+    { id: "closed10", icon: "🎯", goal: 10,   val: g => g.bonusDays.size },
+    { id: "week",     icon: "🗓️", goal: 7,    val: g => g.bestClearRun },
+    { id: "busy",     icon: "⚡", goal: 10,   val: g => g.maxPerDay },
+    { id: "ahead",    icon: "⏩", goal: 5,    val: g => g.ahead },
+    { id: "early",    icon: "🌅", goal: 1,    val: g => g.early },
+    { id: "night",    icon: "🦉", goal: 1,    val: g => g.night },
+    { id: "lvl10",    icon: "⭐", goal: 10,   val: g => g.level },
   ];
-  const WEEKDAY_NAMES = ["неділя", "понеділок", "вівторок", "середа", "четвер", "пʼятниця", "субота"];
+  // names and descriptions come from the current language
+  ACHIEVEMENTS.forEach(a => Object.defineProperties(a, {
+    name: { get: () => t("ach")[a.id][0] },
+    desc: { get: () => { const d = t("ach")[a.id][1]; return typeof d === "function" ? d(CLOSED_MIN) : d; } },
+  }));
+  // Sunday first, as Date.getDay() counts (7 Jan 2024 was a Sunday)
+  const weekdayName = (i) => new Date(2024, 0, 7 + i).toLocaleDateString(locale(), { weekday: "long" });
   const HEAT_WEEKS = 17;
 
   // longest run of consecutive days among `days` (keys)
@@ -1928,7 +2177,7 @@
   }
 
   const lvlBtn = $("lvlBtn"), profilePanel = $("profilePanel");
-  const num = (n) => n.toLocaleString("uk-UA");
+  const num = (n) => n.toLocaleString(locale());
   let game = null;
 
   function renderGame() {
@@ -1936,13 +2185,12 @@
     if (!state.seen) markSeen(); // first run with levels: nothing to celebrate yet
     const r = rankOf(game.level);
     $("lvlAvatar").textContent = r.icon;
-    $("lvlText").textContent = `Рів. ${game.level}`;
+    $("lvlText").textContent = t("lvlShort", game.level);
     $("lvlStreak").hidden = !game.streak;
     $("lvlStreak").textContent = `🔥${game.streak}`;
     lvlBtn.style.setProperty("--p", game.into / game.need);
-    lvlBtn.title = `${r.name} · ${game.into} / ${game.need} XP до рівня ${game.level + 1}`;
-    lvlBtn.setAttribute("aria-label",
-      `Профіль: рівень ${game.level}, ${game.into} з ${game.need} XP` + (game.streak ? `, серія ${game.streak} дн.` : ""));
+    lvlBtn.title = t("lvlTitle", r.name, game.into, game.need, game.level + 1);
+    lvlBtn.setAttribute("aria-label", t("lvlAria", game.level, game.into, game.need, game.streak));
     if (!profilePanel.hidden) renderProfile();
   }
 
@@ -1956,11 +2204,11 @@
     const newAch = ACHIEVEMENTS.filter(a => game.unlocked.includes(a.id) && !state.seen.ach.includes(a.id));
     const levelUp = game.level > state.seen.level;
     markSeen();
-    if (levelUp) notes.unshift(`${rankOf(game.level).icon} Новий рівень: ${game.level}!`);
+    if (levelUp) notes.unshift(`${rankOf(game.level).icon} ${t("newLevel", game.level)}`);
     newAch.slice(0, 2).forEach(a => notes.push(`${a.icon} «${a.name}»`));
-    if (newAch.length > 2) notes.push(`і ще ${newAch.length - 2}`);
+    if (newAch.length > 2) notes.push(t("andMore", newAch.length - 2));
     if (!notes.length) return;
-    showToast(notes.join(" · "), { label: "Профіль", run: openProfile });
+    showToast(notes.join(" · "), { label: t("profile"), run: openProfile });
     if (levelUp || newAch.length) confetti(lvlBtn);
   }
 
@@ -2007,17 +2255,17 @@
       el("div", { className: "info" },
         el("div", { className: "rank", textContent: r.name }),
         el("div", { className: "lvl-line" },
-          el("span", { textContent: `Рівень ${g.level}` }),
+          el("span", { textContent: t("level", g.level) }),
           el("span", { textContent: `${num(g.into)} / ${num(g.need)} XP` })),
         el("div", { className: "xp-track" }, fill)));
 
     const best = g.total ? g.weekdays.indexOf(Math.max(...g.weekdays)) : -1;
     const stat = (value, label) => el("div", { className: "stat" }, el("b", { textContent: value }), el("span", { textContent: label }));
     const stats = el("div", { className: "stats" },
-      stat(num(g.total), "задач виконано"),
-      stat(`🔥 ${g.streak}`, `серія днів · рекорд ${g.bestStreak}`),
-      stat(num(g.bonusDays.size), "закритих днів"),
-      stat(best < 0 ? "—" : cap(WEEKDAY_NAMES[best]), "найпродуктивніший день"));
+      stat(num(g.total), t("statDone")),
+      stat(`🔥 ${g.streak}`, t("statStreak", g.bestStreak)),
+      stat(num(g.bonusDays.size), t("statClosed")),
+      stat(best < 0 ? "—" : cap(weekdayName(best)), t("statBestDay")));
 
     // heatmap: HEAT_WEEKS columns, Monday to Sunday, ending with the current week
     const start = addDays(today, -((dateOf(today).getDay() + 6) % 7) - (HEAT_WEEKS - 1) * 7);
@@ -2037,10 +2285,10 @@
     }
     const heat = el("div", { className: "heat" }, ...cells);
     heat.setAttribute("role", "img");
-    heat.setAttribute("aria-label", `Активність за ${HEAT_WEEKS} тижнів: виконано ${inRange} ${tasksWord(inRange)}`);
-    const legend = el("div", { className: "heat-legend" }, el("span", { textContent: "менше" }),
+    heat.setAttribute("aria-label", t("heatAria", HEAT_WEEKS, inRange));
+    const legend = el("div", { className: "heat-legend" }, el("span", { textContent: t("less") }),
       el("i"), el("i", { className: "l1" }), el("i", { className: "l2" }), el("i", { className: "l3" }), el("i", { className: "l4" }),
-      el("span", { textContent: "більше" }));
+      el("span", { textContent: t("more") }));
     legend.setAttribute("aria-hidden", "true");
 
     const achs = ACHIEVEMENTS.map(a => {
@@ -2054,15 +2302,15 @@
     $("profileBody").replaceChildren(
       top,
       el("p", { className: "xp-hint", textContent: next
-        ? `Усього ${num(g.xp)} XP. Звання «${next.name}» — з ${next.min} рівня.`
-        : `Усього ${num(g.xp)} XP. Найвище звання здобуто!` }),
+        ? t("xpNext", num(g.xp), next.name, next.min)
+        : t("xpMax", num(g.xp)) }),
       stats,
-      el("div", { className: "section-title" }, "Активність", el("span", { textContent: `${num(inRange)} за ${HEAT_WEEKS} тиж.` })),
+      el("div", { className: "section-title" }, t("activity"), el("span", { textContent: t("activityCount", num(inRange), HEAT_WEEKS) })),
       heat, legend,
-      el("div", { className: "section-title" }, "Досягнення", el("span", { textContent: `${g.unlocked.length} / ${ACHIEVEMENTS.length}` })),
+      el("div", { className: "section-title" }, t("achievements"), el("span", { textContent: `${g.unlocked.length} / ${ACHIEVEMENTS.length}` })),
       el("div", { className: "ach-list" }, ...achs),
       el("p", { className: "xp-hint",
-        textContent: `XP: +${XP.task} за задачу, +${XP.onTime} якщо виконано вчасно, +${XP.day} за закритий день (усі задачі дня, від ${CLOSED_MIN}).` }));
+        textContent: t("xpRules", XP.task, XP.onTime, XP.day, CLOSED_MIN) }));
   }
 
   function openProfile() {
@@ -2099,11 +2347,10 @@
 
   // ---------- theme ----------
   const themes =["auto", "light", "dark"];
-  const themeNames = { auto: "як у системі", light: "світла", dark: "темна" };
   function applyTheme() {
     if (state.theme === "auto") document.documentElement.removeAttribute("data-theme");
     else document.documentElement.dataset.theme = state.theme;
-    $("themeBtn").title = "Тема: " + themeNames[state.theme];
+    $("themeBtn").title = t("theme", t("themeNames")[state.theme]);
     postThemeColors();
   }
   // the native window paints a thin frame around the page, keep it in the page colours
@@ -2154,7 +2401,7 @@
   let cloudState = "off", cloudError = "", lastCloudSync = 0;
   let cloudTimer = null, cloudBusy = false, cloudAgain = false;
 
-  const clock = (ms) => new Date(ms).toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" });
+  const clock = (ms) => new Date(ms).toLocaleTimeString(locale(), { hour: "2-digit", minute: "2-digit" });
 
   class CloudError extends Error {
     constructor(message, status, auth = false) { super(message); this.status = status; this.auth = auth; }
@@ -2188,13 +2435,13 @@
 
   function authMessage(d, status) {
     const raw = `${d.error_code || ""} ${d.msg || ""} ${d.error_description || ""} ${d.message || ""}`.toLowerCase();
-    if (raw.includes("invalid login") || raw.includes("invalid_credentials")) return "Неправильна пошта або пароль";
-    if (raw.includes("not confirmed")) return "Пошту ще не підтверджено — відкрийте лист від Supabase";
-    if (raw.includes("already registered") || raw.includes("user_already_exists")) return "Такий акаунт уже є — просто увійдіть";
-    if (raw.includes("password") && raw.includes("6")) return "Пароль має бути щонайменше з 6 символів";
-    if (raw.includes("email") && raw.includes("invalid")) return "Перевірте адресу пошти";
-    if (status === 429) return "Забагато спроб — зачекайте хвилину";
-    return d.msg || d.error_description || d.message || `Помилка ${status}`;
+    if (raw.includes("invalid login") || raw.includes("invalid_credentials")) return t("authInvalid");
+    if (raw.includes("not confirmed")) return t("authUnconfirmed");
+    if (raw.includes("already registered") || raw.includes("user_already_exists")) return t("authExists");
+    if (raw.includes("password") && raw.includes("6")) return t("authPassword");
+    if (raw.includes("email") && raw.includes("invalid")) return t("authEmail");
+    if (status === 429) return t("authTooMany");
+    return d.msg || d.error_description || d.message || t("error", status);
   }
 
   async function authRequest(path, body) {
@@ -2230,8 +2477,8 @@
     if (!res.ok) {
       const text = await res.text().catch(() => "");
       const msg = /relation|does not exist|schema cache/i.test(text)
-        ? "У базі немає таблиці tasks — виконайте supabase/schema.sql"
-        : `Сервер відповів ${res.status}`;
+        ? t("noTable")
+        : t("serverSaid", res.status);
       throw new CloudError(msg, res.status);
     }
     // uploads (Prefer: return=minimal) come back with an empty body, whatever the status code
@@ -2292,17 +2539,17 @@
     } catch (e) {
       if (e instanceof CloudError && e.auth) {
         storeSession(null);
-        cloudError = "Сесія завершилась — увійдіть знову";
+        cloudError = t("sessionEnded");
         setCloudState("signedout");
       } else if (e instanceof CloudError) {
         cloudError = e.message;
         setCloudState("error");
       } else if (isNetworkError(e)) {
-        cloudError = `Немає зв'язку з сервером синхронізації (${e.name}: ${e.message})`;
+        cloudError = t("noSyncServer", `${e.name}: ${e.message}`);
         setCloudState("offline");
       } else {
         // a bug or an unsupported browser feature — show it as it is, not as "no internet"
-        cloudError = `Збій синхронізації: ${errorText(e)}`;
+        cloudError = t("syncFailed", errorText(e));
         console.error(e);
         setCloudState("error");
       }
@@ -2353,15 +2600,15 @@
     cloudState = s;
     syncBtn.dataset.state = s;
     const label = {
-      off: "хмару не налаштовано",
-      signedout: "не виконано вхід",
-      busy: "синхронізація…",
-      ok: `синхронізовано ${clock(lastCloudSync)}`,
-      offline: lastCloudSync ? `офлайн · ${clock(lastCloudSync)}` : "немає інтернету",
-      error: "помилка синхронізації",
+      off: t("cloud").off,
+      signedout: t("cloud").signedout,
+      busy: t("cloud").busy,
+      ok: t("cloud").ok(clock(lastCloudSync)),
+      offline: lastCloudSync ? t("cloud").offline(clock(lastCloudSync)) : t("cloud").noInternet,
+      error: t("cloud").error,
     }[s];
     $("syncText").textContent = "· " + label;
-    syncBtn.title = cap(label) + (s === "offline" ? ". Зміни збережено на пристрої." : "");
+    syncBtn.title = cap(label) + (s === "offline" ? t("savedHere") : "");
     if (!syncPanel.hidden) renderSyncPanel();
   }
 
@@ -2375,7 +2622,7 @@
     const body = $("syncBody");
     if (!CLOUD) {
       body.replaceChildren(el("p", { className: "muted",
-        textContent: "Хмару ще не підключено: у файлі cloud-config.js немає адреси й ключа проєкту Supabase." }));
+        textContent: t("noCloud") }));
       return;
     }
     if (!session) {
@@ -2383,8 +2630,8 @@
       const pass = el("input", { type: "password", id: "cloudPass", autocomplete: "current-password", required: true, minLength: 6 });
       const error = el("p", { className: "panel-error", textContent: cloudError, hidden: !cloudError });
       error.setAttribute("role", "alert");
-      const signInBtn = el("button", { className: "add-btn", type: "submit", textContent: "Увійти" });
-      const signUpBtn = el("button", { className: "link-btn", type: "button", textContent: "Створити акаунт" });
+      const signInBtn = el("button", { className: "add-btn", type: "submit", textContent: t("signIn") });
+      const signUpBtn = el("button", { className: "link-btn", type: "button", textContent: t("signUp") });
 
       const run = async (action) => {
         if (!form.reportValidity()) return;
@@ -2393,15 +2640,15 @@
         try {
           if (action === "up" && !(await signUp(email.value.trim(), pass.value))) {
             body.replaceChildren(el("p", { className: "muted",
-              textContent: `Надіслали лист на ${email.value.trim()}. Підтвердьте адресу за посиланням із листа, потім увійдіть тут.` }));
+              textContent: t("mailSent", email.value.trim()) }));
             setTimeout(() => { if (!syncPanel.hidden && !session) renderSyncPanel(); }, 8000);
             return;
           }
           if (action === "in") await signIn(email.value.trim(), pass.value);
         } catch (e) {
           error.textContent = e instanceof CloudError ? e.message
-            : isNetworkError(e) ? `Немає зв'язку з сервером (${e.name}: ${e.message})`
-            : `Збій: ${errorText(e)}`;
+            : isNetworkError(e) ? t("noServer", `${e.name}: ${e.message}`)
+            : t("failure", errorText(e));
           if (!(e instanceof CloudError) && !isNetworkError(e)) console.error(e);
           error.hidden = false;
           signInBtn.disabled = signUpBtn.disabled = false;
@@ -2409,9 +2656,9 @@
         }
       };
       const form = el("form", { className: "cloud-form", noValidate: false },
-        el("p", { className: "muted", textContent: "Увійдіть однаковим акаунтом на ПК і телефоні — задачі будуть спільні." }),
-        el("label", { htmlFor: "cloudEmail", textContent: "Пошта" }), email,
-        el("label", { htmlFor: "cloudPass", textContent: "Пароль" }), pass,
+        el("p", { className: "muted", textContent: t("signInHint") }),
+        el("label", { htmlFor: "cloudEmail", textContent: t("email") }), email,
+        el("label", { htmlFor: "cloudPass", textContent: t("password") }), pass,
         error,
         el("div", { className: "form-actions" }, signInBtn, signUpBtn));
       form.addEventListener("submit", (e) => { e.preventDefault(); run("in"); });
@@ -2420,18 +2667,18 @@
       return;
     }
     const status = {
-      busy: "Синхронізація…",
-      ok: `Синхронізовано о ${clock(lastCloudSync)}`,
-      offline: `Зміни збережено тут і підуть у хмару, щойно з'явиться зв'язок. ${cloudError}`,
+      busy: t("syncing"),
+      ok: t("syncedAt", clock(lastCloudSync)),
+      offline: t("offlinePanel", cloudError),
       error: cloudError,
     }[cloudState] || "";
     body.replaceChildren(
-      el("p", { className: "muted" }, "Акаунт: ", el("strong", { textContent: session.user.email })),
+      el("p", { className: "muted" }, t("account"), el("strong", { textContent: session.user.email })),
       el("p", { className: cloudState === "error" ? "panel-error" : "muted", textContent: status }),
       el("div", { className: "form-actions" },
-        el("button", { className: "add-btn", type: "button", textContent: "Синхронізувати", onclick: cloudSync,
+        el("button", { className: "add-btn", type: "button", textContent: t("syncNow"), onclick: cloudSync,
                        disabled: cloudState === "busy" }),
-        el("button", { className: "link-btn", type: "button", textContent: "Вийти", onclick: signOut })));
+        el("button", { className: "link-btn", type: "button", textContent: t("signOut"), onclick: signOut })));
   }
 
   function openSyncPanel() {
@@ -2499,12 +2746,26 @@
       const version = String(r.tag_name || "").replace(/^v/i, "");
       if (!file || !sum || !isNewer(version, updateHost.version)) return;
       release = { version, url: file.browser_download_url, sha: sum.browser_download_url };
-      if (version !== updateDismissed && $("updateBtn").disabled === false) showUpdate(`Доступна версія ${version}`, "Оновити");
+      if (version !== updateDismissed && $("updateBtn").disabled === false) showUpdate({ state: "available" });
     } catch { /* offline or GitHub is slow: next time */ }
   }
 
-  // label: text of the button, or null to disable it (while downloading)
-  function showUpdate(text, label) {
+  // s: { state, pct?, code?, status?, message? } — from the host, or "available" / "downloading" from here.
+  // Kept so the bar can be redrawn in another language.
+  let updateState = null;
+  function showUpdate(s) {
+    updateState = s;
+    const v = release && release.version;
+    const err = s.code === "http" ? t("updErr").http(s.status) : s.code ? t("updErr")[s.code] : t("updFailed", s.message || "");
+    const [text, label] = {
+      available: [t("updAvailable", v), t("update")],
+      downloading: [t("updDownloading", ""), null],
+      progress: [t("updDownloading", ` ${s.pct}%`), null],
+      restarting: [t("updRestarting"), null],
+      installing: [t("updConfirm", v), t("updInstall")],
+      permission: [t("updPermission"), t("update")],
+      error: [err, t("updRetry")],
+    }[s.state] || [t("updFailed", s.state), t("updRetry")];
     $("updateText").textContent = text;
     $("updateBtn").disabled = !label;
     if (label) $("updateBtn").textContent = label;
@@ -2513,7 +2774,7 @@
 
   function installUpdate() {
     if (!release) return;
-    showUpdate("Завантаження…", null);
+    showUpdate({ state: "downloading" });
     if (host) {
       flushSave(); // the widget restarts as soon as the new exe is in place
       post("update", { url: release.url, sha: release.sha });
@@ -2522,13 +2783,7 @@
     }
   }
 
-  window.taskWidgetUpdate = (s) => {
-    if (s.state === "progress") showUpdate(`Завантаження… ${s.pct}%`, null);
-    else if (s.state === "restarting") showUpdate("Перезапуск…", null);
-    else if (s.state === "installing") showUpdate(`Підтвердіть встановлення версії ${release.version}`, "Встановити");
-    else if (s.state === "permission") showUpdate("Дозвольте встановлювати застосунки з «Задачі» й поверніться сюди", "Оновити");
-    else if (s.state === "error") showUpdate(s.message || "Не вдалося оновити", "Ще раз");
-  };
+  window.taskWidgetUpdate = showUpdate;
 
   $("updateBtn").addEventListener("click", installUpdate);
   $("updateClose").addEventListener("click", () => {
@@ -2541,6 +2796,39 @@
     setTimeout(checkUpdate, 5000);
     setInterval(checkUpdate, UPDATE_EVERY);
   }
+
+  // ---------- language: applying and switching ----------
+  // "auto" follows the system (Ukrainian if it is among the preferred languages, otherwise English)
+  function applyLang() {
+    const system = (navigator.languages || [navigator.language]).some(l => /^uk/i.test(l)) ? "uk" : "en";
+    lang = state.lang === "uk" || state.lang === "en" ? state.lang : system;
+    document.documentElement.lang = lang;
+    document.title = t("appName");
+    post("title", { value: t("appName") });
+    for (const root of [document, tpl.content]) {
+      root.querySelectorAll("[data-i18n]").forEach(n => { n.textContent = t(n.dataset.i18n); });
+      root.querySelectorAll("[data-i18n-title]").forEach(n => { n.title = t(n.dataset.i18nTitle); });
+      root.querySelectorAll("[data-i18n-aria]").forEach(n => n.setAttribute("aria-label", t(n.dataset.i18nAria)));
+    }
+    $("langBtn").textContent = lang === "uk" ? "UA" : "EN";
+    $("langBtn").title = t("langTitle");
+    $("editHint").textContent = t(matchMedia("(pointer: coarse)").matches ? "editHintTouch" : "editHint");
+    divider.textContent = t("completed");
+  }
+
+  $("langBtn").addEventListener("click", () => {
+    flushSync();
+    state.lang = lang === "uk" ? "en" : "uk";
+    applyLang();
+    applyTheme();
+    renderHeader();
+    list.replaceChildren(); // rows are rebuilt from the translated template
+    sync();
+    setCloudState(cloudState); // also redraws the sync panel if it is open
+    if (!cal.hidden) renderCalendar();
+    if (updateState && !$("updateBar").hidden) showUpdate(updateState);
+    save();
+  });
 
   // ---------- Android app ----------
   // Back button: close whatever is open first; returns true if it handled the press.
@@ -2559,6 +2847,7 @@
 
   function start() {
     load();
+    applyLang();
     applyTheme();
     renderHeader();
     sync();
@@ -2569,11 +2858,8 @@
     if (android) $("syncText").hidden = false; // room for the status text on a phone
     initCloud();
     initUpdates();
-    if (matchMedia("(pointer: coarse)").matches) {
-      $("editHint").textContent = "Двічі торкніться — редагувати";
-    } else {
-      input.focus(); // on a touch screen this would pop up the keyboard on every launch
-    }
+    // on a touch screen this would pop up the keyboard on every launch
+    if (!matchMedia("(pointer: coarse)").matches) input.focus();
 
     // past midnight: "today" moves on; if you were looking at today, follow it
     setInterval(() => {

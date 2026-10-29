@@ -27,9 +27,9 @@ internal static class Updater
     public static async Task<string> DownloadAndSwapAsync(string exeUrl, string shaUrl, IProgress<int> progress)
     {
         if (!exeUrl.StartsWith(DownloadPrefix, StringComparison.Ordinal) || !shaUrl.StartsWith(DownloadPrefix, StringComparison.Ordinal))
-            throw new InvalidOperationException("Оновлення дозволено лише з релізів " + AppInfo.Repo + ".");
+            throw new UpdateException("source");
 #if DEBUG
-        throw new InvalidOperationException("Оновлення працюють лише в зібраній програмі (dist\\TaskWidget.exe).");
+        throw new UpdateException("debug"); // only the published dist\TaskWidget.exe updates itself
 #else
         Directory.CreateDirectory(StageDir);
         string staged = Path.Combine(StageDir, "TaskWidget.exe");
@@ -60,7 +60,7 @@ internal static class Updater
         if (!string.Equals(expected, actual, StringComparison.OrdinalIgnoreCase))
         {
             File.Delete(staged);
-            throw new InvalidOperationException("Контрольна сума файлу не збігається (SHA-256). Спробуйте ще раз.");
+            throw new UpdateException("checksum");
         }
 
         if (File.Exists(OldPath)) File.Delete(OldPath);
@@ -132,4 +132,10 @@ internal static class Updater
         client.DefaultRequestHeaders.UserAgent.ParseAdd($"TaskWidget/{AppInfo.Version}");
         return client;
     }
+}
+
+/// <summary>A known update failure; the page shows <see cref="Code"/> in its own language ("source", "checksum", "debug").</summary>
+internal sealed class UpdateException(string code) : Exception(code)
+{
+    public string Code { get; } = code;
 }

@@ -60,7 +60,7 @@ final class Updater {
     void install(String apkUrl, String shaUrl) {
         if (busy) return;
         if (!apkUrl.startsWith(DOWNLOAD_PREFIX) || !shaUrl.startsWith(DOWNLOAD_PREFIX)) {
-            send("error", "message", "Оновлення дозволено лише з релізів " + BuildConfig.UPDATE_REPO);
+            send("error", "code", "source");
             return;
         }
         // Android 8+: the user allows installing apps from this app once, in system settings.
@@ -83,9 +83,13 @@ final class Updater {
                         .setDataAndType(uri, "application/vnd.android.package-archive")
                         .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.runOnUiThread(() -> activity.startActivity(intent));
+            } catch (UpdateError e) {
+                try {
+                    report.accept(new JSONObject().put("state", "error").put("code", e.code).put("status", e.status));
+                } catch (JSONException ignored) {
+                }
             } catch (Exception e) {
-                send("error", "message", e instanceof IOException && e.getMessage() != null
-                        ? e.getMessage() : "Не вдалося завантажити оновлення (" + e + ")");
+                send("error", "message", e.toString()); // e.g. no connection
             } finally {
                 busy = false;
             }
@@ -96,7 +100,7 @@ final class Updater {
         String expected = readText(shaUrl).trim().split("\\s+")[0];
 
         File dir = new File(activity.getCacheDir(), "updates");
-        if (!dir.isDirectory() && !dir.mkdirs()) throw new IOException("Немає місця для завантаження");
+        if (!dir.isDirectory() && !dir.mkdirs()) throw new UpdateError("space", 0);
         File apk = new File(dir, "DayTasks.apk");
 
         HttpURLConnection conn = open(apkUrl);
@@ -121,7 +125,7 @@ final class Updater {
         if (!actual.toString().equalsIgnoreCase(expected)) {
             //noinspection ResultOfMethodCallIgnored
             apk.delete();
-            throw new IOException("Контрольна сума файлу не збігається (SHA-256). Спробуйте ще раз.");
+            throw new UpdateError("checksum", 0);
         }
         return apk;
     }
@@ -146,9 +150,21 @@ final class Updater {
         if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
             int code = conn.getResponseCode();
             conn.disconnect();
-            throw new IOException("Сервер оновлень відповів " + code);
+            throw new UpdateError("http", code);
         }
         return conn;
+    }
+
+    /** A known failure; the page shows the code in its own language ("source", "space", "checksum", "http" + status). */
+    private static final class UpdateError extends IOException {
+        final String code;
+        final int status;
+
+        UpdateError(String code, int status) {
+            super(code);
+            this.code = code;
+            this.status = status;
+        }
     }
 
     private void send(String state, String key, Object value) {

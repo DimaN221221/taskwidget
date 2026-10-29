@@ -15,7 +15,7 @@
     <Product>Задачі на день</Product>
     <!-- The one version number for both apps: android\app\build.gradle reads it from here,
          and release.bat publishes it as the GitHub release vX.Y.Z. -->
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <Copyright>© 2026</Copyright>
   </PropertyGroup>
 

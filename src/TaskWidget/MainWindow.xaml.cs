@@ -103,6 +103,9 @@ public partial class MainWindow : Window
                 Background = ToBrush((string?)msg["bg"], Background);
                 BorderBrush = ToBrush((string?)msg["line"], BorderBrush);
                 break;
+            case "title": // the window's name on the taskbar, in the page's language
+                Title = (string?)msg["value"] ?? Title;
+                break;
             case "update":
                 _ = InstallUpdateAsync((string?)msg["url"] ?? "", (string?)msg["sha"] ?? "");
                 break;
@@ -127,7 +130,9 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             _updating = false;
-            ReportUpdate(new JsonObject { ["state"] = "error", ["message"] = ex.Message });
+            ReportUpdate(ex is UpdateException known
+                ? new JsonObject { ["state"] = "error", ["code"] = known.Code }
+                : new JsonObject { ["state"] = "error", ["message"] = ex.Message });
         }
     }
 
