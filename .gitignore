@@ -1,0 +1,10 @@
+.build/
+dist/
+.vs/
+*.user
+
+# Android: machine paths and the release signing key (keep a private backup of the key!)
+android/.gradle/
+android/local.properties
+android/keystore.properties
+android/release.keystore

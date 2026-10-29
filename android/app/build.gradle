@@ -1,0 +1,71 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Release signing key: android\keystore.properties + android\release.keystore (both kept out of git).
+// Keep a backup — an update can only be installed over the app if it's signed with the same key.
+def keystoreProps = new Properties()
+def keystoreFile = rootProject.file('keystore.properties')
+if (keystoreFile.exists()) {
+    keystoreFile.withInputStream { keystoreProps.load(it) }
+}
+
+// Version: <Version> in the PC widget's project file, so both apps always carry the same number.
+// versionCode 1.3.0 → 10300 (must grow with every release, or Android refuses to update).
+def appVersion = (rootProject.file('../src/TaskWidget/TaskWidget.csproj').text =~ /<Version>([^<]+)<\/Version>/)[0][1].trim()
+def (vMajor, vMinor, vPatch) = (appVersion.tokenize('.') + ['0', '0']).take(3).collect { it as int }
+
+android {
+    namespace 'com.daytasks.app'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.daytasks.app'
+        minSdk 26
+        targetSdk 35
+        versionCode vMajor * 10000 + vMinor * 100 + vPatch
+        versionName appVersion
+        buildConfigField 'String', 'UPDATE_REPO', '"DimaN221221/taskwidget"'
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    // The UI is the PC widget's wwwroot folder, packed as-is.
+    sourceSets {
+        main {
+            assets.srcDirs = ['../../src/TaskWidget/wwwroot']
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (keystoreFile.exists()) {
+                storeFile rootProject.file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig keystoreFile.exists() ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+layout.buildDirectory = file("../../.build/android/app")
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.12.1'
+    implementation 'androidx.core:core:1.13.1' // FileProvider: hands the downloaded APK to the installer
+}

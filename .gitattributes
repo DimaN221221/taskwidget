@@ -1,0 +1,4 @@
+* text=auto
+# shell script for Linux/macOS builds must keep LF
+android/gradlew text eol=lf
+*.bat text eol=crlf

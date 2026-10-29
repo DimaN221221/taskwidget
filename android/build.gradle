@@ -1,0 +1,6 @@
+plugins {
+    id 'com.android.application' version '8.7.3' apply false
+}
+
+// build output goes to the shared hidden .build folder, not next to the sources
+layout.buildDirectory = file("../.build/android/root")
