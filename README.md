@@ -4,62 +4,11 @@
 Обидва показують один і той самий інтерфейс (`src/TaskWidget/wwwroot`) і синхронізуються
 через хмару Supabase — ПК для цього вмикати не треба.
 
-## Структура
-
-```
-TaskWidget.sln                  ← віджет для ПК (Visual Studio)
-android/                        ← застосунок для Android (Gradle; відкривається в Android Studio)
-  app/src/main/java/.../MainActivity.java  ← WebView-оболонка: системні панелі, клавіатура, «Назад»
-  app/src/main/java/.../Updater.java       ← завантаження й встановлення оновлення
-  app/src/main/res/             ← іконки, тема, назва
-  app/build.gradle              ← бере інтерфейс прямо з src/TaskWidget/wwwroot
-build.bat                       ← зібрати обидва: dist\TaskWidget.exe і dist\DayTasks.apk
-release.bat                     ← зібрати й опублікувати реліз на GitHub (tools/release.ps1)
-supabase/schema.sql             ← таблиця задач і правила доступу (виконати один раз у Supabase)
-src/TaskWidget/
-  wwwroot/index.html            ← увесь інтерфейс і синхронізація (спільні для ПК та Android)
-  wwwroot/cloud-config.js       ← адреса й публічний ключ проєкту Supabase
-  MainWindow.xaml(.cs)          ← вікно без рамки, міст між сторінкою і Windows
-  Storage.cs                    ← tasks.json і положення вікна
-  Updater.cs, AppInfo.cs        ← оновлення з GitHub, версія й репозиторій
-  EmbeddedContent.cs            ← віддає файли з wwwroot у WebView2
-  NativeMethods.cs              ← перетягування вікна, виведення на передній план
-  App.xaml(.cs)                 ← запуск, лише одна копія віджета
-  Properties/PublishProfiles/   ← профіль збірки exe
-tools/make_icon.py              ← перегенерувати іконки (exe і Android)
-Directory.Build.props           ← складає проміжні файли збірки в .build/
-dist/                           ← готові TaskWidget.exe і DayTasks.apk
-```
-
 ## Синхронізація (Supabase)
 
 Кожен пристрій сам обмінюється з хмарою: при запуску, після змін, при поверненні до
 застосунку і щохвилини. Без інтернету все працює й зберігається на пристрої, а зміни
 вивантажуються, щойно з'явиться зв'язок. Стан видно на кнопці з хмаринкою.
-
-Налаштування (один раз):
-
-1. Зареєструйтеся на <https://supabase.com> і створіть проєкт (Free).
-2. **SQL Editor → New query** → вставте вміст `supabase/schema.sql` → **Run**.
-3. **Authentication → Users → Add user → Create new user**: пошта й пароль,
-   увімкніть **Auto Confirm User**. (Або створіть акаунт кнопкою в застосунку — тоді
-   Supabase надішле лист для підтвердження.)
-4. **Project Settings → API**: впишіть *Project URL* і ключ *anon public* (або *publishable*)
-   у `src/TaskWidget/wwwroot/cloud-config.js` і запустіть `build.bat`.
-5. У віджеті й на телефоні: кнопка з хмаринкою → увійдіть тим самим акаунтом.
-
-Як це влаштовано:
-
-- Задача: `{ id, text, done, day: "YYYY-MM-DD", o: порядок, u: час зміни (мс), deleted? }`.
-- У базі — таблиця `tasks` (рядок на задачу). Правила RLS дають кожному акаунту лише його рядки.
-- **Новіша зміна перемагає**: тригер у базі пропускає запис, якщо він не новіший за збережений
-  (поле `u`). Тож порядок, у якому пристрої вивантажують зміни, не важливий.
-- Пристрій вивантажує лише змінені тут задачі (`sync.dirty`) і завантажує рядки, змінені на сервері
-  після останнього баченого (`sync.cursor`, за часом сервера).
-- Видалені задачі лишаються «надгробками» (`deleted: true`), щоб видалення дійшло до інших пристроїв.
-- Ключ *anon* публічний за задумом Supabase: без входу в акаунт він не дає доступу до задач.
-- Безкоштовний проєкт Supabase призупиняється після ~7 днів без жодних запитів; тоді його
-  треба відновити кнопкою в панелі Supabase (дані не губляться).
 
 ## Рівні, серії й досягнення
 
@@ -82,70 +31,4 @@ dist/                           ← готові TaskWidget.exe і DayTasks.apk
 українськими. Усі тексти — у словнику `I18N` на початку скрипту в `index.html`: щоб додати мову,
 допишіть туди ще один розділ. Розмітка називає свої ключі в `data-i18n`, `data-i18n-title`, `data-i18n-aria`.
 
-## Оновлення (GitHub Releases)
 
-Обидва застосунки самі шукають нову версію в <https://github.com/DimaN221221/taskwidget/releases>:
-через 5 секунд після запуску й далі кожні 6 годин. Коли реліз новіший, над нижньою панеллю
-з'являється «Доступна версія X — Оновити».
-
-- **ПК:** віджет завантажує `TaskWidget.exe`, звіряє SHA-256 з `TaskWidget.exe.sha256`, перейменовує
-  запущений exe на `TaskWidget.exe.old`, ставить новий на його місце й перезапускається
-  (новий процес чекає, поки старий збереже задачі й закриється, і прибирає `.old`).
-- **Android:** застосунок завантажує `DayTasks.apk`, звіряє SHA-256 і відкриває системне встановлення.
-  Першого разу Android попросить дозволити «Задачам» встановлювати застосунки.
-  Нова версія ставиться поверх, бо підписана тим самим ключем `android/release.keystore`, тож без нього
-  оновлень не буде — **зберігайте резервну копію ключа**.
-
-Код: `Updater.cs` і `Updater.java` (завантаження, перевірка, встановлення), розділ «updates» в `index.html`
-(перевірка релізу й смужка оновлення). Завантаження дозволено лише з `github.com/DimaN221221/taskwidget/releases/download/`.
-
-### Як випустити нову версію
-
-1. Змініть `<Version>` у `src/TaskWidget/TaskWidget.csproj` (наприклад, `1.3.0` → `1.4.0`).
-   Android бере номер звідти ж (`versionCode` 1.4.0 → 10400).
-2. Закомітьте зміни.
-3. Запустіть `release.bat` (або `release.bat "Що нового: …"`): він збере exe та apk, порахує
-   `.sha256`, запушить коміт і створить реліз `v1.4.0` з чотирма файлами (потрібен `gh auth login`).
-
-## Віджет для ПК
-
-1. Відкрийте `TaskWidget.sln` у Visual Studio. F5 — запуск; у Debug-збірці правий клік →
-   «Перевірити» відкриває DevTools сторінки.
-2. Зміни в `wwwroot/` підхоплюються при наступній збірці.
-
-Для швидкої правки вигляду `wwwroot/index.html` можна відкрити просто в браузері.
-
-## Застосунок для Android
-
-Потрібні JDK 17 і Android SDK (API 35). На цьому ПК вони вже встановлені:
-
-- JDK 17: `%LOCALAPPDATA%\AndroidDev\jdk17`
-- Android SDK: `%LOCALAPPDATA%\Android\Sdk`
-
-`build.bat` знаходить їх сам. Можна також відкрити папку `android/` в Android Studio.
-
-Встановлення на телефон: перекиньте `dist\DayTasks.apk` на телефон (кабель, Telegram, Google Drive…),
-відкрийте файл і дозвольте встановлення з цього джерела. Нові версії ставляться поверх старої.
-
-**Ключ підпису** — `android/release.keystore` і пароль у `android/keystore.properties`.
-Збережіть копію обох файлів у надійному місці: без цього ключа оновлення не встановиться поверх
-наявного застосунку (довелося б видаляти його й ставити заново).
-
-## Збірка
-
-Запустіть `build.bat` (перед цим закрийте віджет). Результат — `dist\TaskWidget.exe` і
-`dist\DayTasks.apk`; кожна збірка замінює попередні файли. Проміжні файли — у прихованій `.build/`,
-її можна будь-коли видалити.
-
-## Де лежать дані
-
-- ПК: `%APPDATA%\TaskWidget\tasks.json` (задачі, тема, стан синхронізації),
-  `%APPDATA%\TaskWidget\window.json` (положення вікна),
-  `%LOCALAPPDATA%\TaskWidget\WebView2\` (кеш і вхід у хмару).
-- Android: сховище застосунку (localStorage його WebView).
-
-## Як сторінка спілкується з оболонкою
-
-- ПК: `chrome.webview.postMessage({ type })` → `MainWindow.OnWebMessage`: `save`, `drag`, `onTop`,
-  `minimize`, `close`, `theme`. Збережені задачі приходять у `window.taskWidgetHost.initialState`.
-- Android: `window.TaskWidgetAndroid.setTheme(bg, dark)`; кнопка «Назад» викликає `window.taskWidgetBack()`.
