@@ -22,6 +22,10 @@
     --danger: #B42318;
     --done-text: #8A918E;
     --ring: #0D7D72;
+    /* priority: low / medium / high (also told apart by the number of "!") */
+    --p1: #2563A8;
+    --p2: #B4530A;
+    --p3: #B42318;
     --shadow: 0 1px 0 rgba(28, 35, 33, .04);
     --radius: 10px;
     --font: "Plus Jakarta Sans", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
@@ -41,6 +45,9 @@
       --danger: #F2847A;
       --done-text: #6F7874;
       --ring: #3CB4A6;
+      --p1: #7EAEE8;
+      --p2: #F2A04B;
+      --p3: #F2847A;
       color-scheme: dark;
     }
   }
@@ -57,6 +64,9 @@
     --danger: #F2847A;
     --done-text: #6F7874;
     --ring: #3CB4A6;
+    --p1: #7EAEE8;
+    --p2: #F2A04B;
+    --p3: #F2847A;
     color-scheme: dark;
   }
 
@@ -413,6 +423,49 @@
     box-shadow: inset 0 0 0 1px var(--primary);
   }
 
+  /* formatting inside task text (**bold**, *italic*, __underline__, ~~strike~~, `code`) */
+  .text strong { font-weight: 700; }
+  .text code {
+    padding: 0 4px;
+    border-radius: 4px;
+    background: var(--line);
+    font: .9em/1 ui-monospace, Consolas, monospace;
+  }
+
+  /* ---------- Priority ---------- */
+  .task[data-p="1"] { --p: var(--p1); }
+  .task[data-p="2"] { --p: var(--p2); }
+  .task[data-p="3"] { --p: var(--p3); }
+  /* a short bar on the row's left edge */
+  .task[data-p] { position: relative; }
+  .task[data-p]::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--p);
+  }
+  .task.done[data-p]::before { background: var(--line); }
+  .prio {
+    flex: none;
+    align-self: flex-start;
+    min-width: 18px;
+    height: 32px;
+    margin: 0 -4px 0 -6px;
+    padding: 0 2px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--p);
+    font: 800 14px/32px var(--font);
+    letter-spacing: -.08em;
+    cursor: pointer;
+  }
+  .prio:hover { background: var(--line); }
+  .task.done .prio { color: var(--done-text); }
+  .task:not([data-p]) .prio { display: none; }
+
   .del, .move {
     flex: none;
     opacity: 0;
@@ -452,6 +505,71 @@
   .menu button:hover, .menu button:focus-visible { background: var(--line); outline: none; }
   .menu svg { flex: none; width: 16px; height: 16px; color: var(--text-muted); }
   .menu small { margin-left: auto; padding-left: 12px; font-size: 12px; color: var(--text-muted); }
+
+  /* priority picker at the top of the task menu */
+  .menu .prio-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0 0 4px;
+    padding: 2px 2px 6px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .prio-row > span { flex: 1; font-size: 12px; font-weight: 600; color: var(--text-muted); }
+  .menu .prio-row button {
+    width: 36px;
+    min-height: 32px;
+    padding: 0;
+    justify-content: center;
+    font-weight: 800;
+    letter-spacing: -.08em;
+  }
+  .prio-row button[data-p="1"] { color: var(--p1); }
+  .prio-row button[data-p="2"] { color: var(--p2); }
+  .prio-row button[data-p="3"] { color: var(--p3); }
+  .prio-row button[data-p="0"] { color: var(--text-muted); }
+  .menu .prio-row button[aria-checked="true"] { background: var(--line); box-shadow: inset 0 0 0 1.5px currentColor; }
+
+  /* ---------- Formatting bar (while typing a task) ---------- */
+  .fmt-bar {
+    position: absolute;
+    z-index: 13;
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .14);
+  }
+  .fmt-bar button {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .fmt-bar button:hover { background: var(--line); }
+  .fmt-bar .sep { width: 1px; margin: 4px 2px; background: var(--line); }
+  .fmt-bar [data-fmt="b"] { font-weight: 800; }
+  .fmt-bar [data-fmt="i"] { font-style: italic; font-family: Georgia, serif; }
+  .fmt-bar [data-fmt="u"] { text-decoration: underline; }
+  .fmt-bar [data-fmt="s"] { text-decoration: line-through; }
+  .fmt-bar [data-fmt="c"] { font: 12px ui-monospace, Consolas, monospace; }
+  .fmt-bar .fmt-prio { font-weight: 800; letter-spacing: -.08em; color: var(--text-muted); }
+  .fmt-bar .fmt-prio[data-p="1"] { color: var(--p1); }
+  .fmt-bar .fmt-prio[data-p="2"] { color: var(--p2); }
+  .fmt-bar .fmt-prio[data-p="3"] { color: var(--p3); }
+  @media (pointer: coarse) {
+    .fmt-bar button { min-width: 40px; height: 38px; }
+  }
+
+  /* red dot: the day has an unfinished high-priority task */
+  .cal-day.has.high::after { background: var(--p3); }
+  .cal-day.selected.high::after { background: var(--on-primary); }
 
   .cal-hint {
     margin: 0 2px 6px;
@@ -965,7 +1083,14 @@
     <button class="link-btn" id="clearBtn" type="button" data-i18n="clearDone" disabled>Прибрати виконані</button>
   </footer>
 
-  <div class="menu" id="moveMenu" role="menu" aria-label="Перенести задачу" data-i18n-aria="moveTask" hidden>
+  <div class="menu" id="moveMenu" role="menu" aria-label="Дії із задачею" data-i18n-aria="taskActions" hidden>
+    <div class="prio-row" role="group" aria-labelledby="prioLabel">
+      <span id="prioLabel" data-i18n="priority">Важливість</span>
+      <button type="button" role="menuitemradio" data-p="0" aria-checked="false">—</button>
+      <button type="button" role="menuitemradio" data-p="1" aria-checked="false">!</button>
+      <button type="button" role="menuitemradio" data-p="2" aria-checked="false">!!</button>
+      <button type="button" role="menuitemradio" data-p="3" aria-checked="false">!!!</button>
+    </div>
     <button type="button" role="menuitem" id="moveNext">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       <span id="moveNextLabel">На завтра</span><small id="moveNextDate"></small>
@@ -974,6 +1099,17 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
       <span data-i18n="otherDay">Інший день…</span>
     </button>
+  </div>
+
+  <!-- shown while typing a new task or editing one; buttons keep the focus in the text -->
+  <div class="fmt-bar" id="fmtBar" role="toolbar" aria-label="Форматування" data-i18n-aria="fmtBar" hidden>
+    <button type="button" data-fmt="b" data-i18n-title="fmtBold" data-i18n-aria="fmtBold" title="Жирний (Ctrl+B)">B</button>
+    <button type="button" data-fmt="i" data-i18n-title="fmtItalic" data-i18n-aria="fmtItalic" title="Курсив (Ctrl+I)">I</button>
+    <button type="button" data-fmt="u" data-i18n-title="fmtUnderline" data-i18n-aria="fmtUnderline" title="Підкреслений (Ctrl+U)">U</button>
+    <button type="button" data-fmt="s" data-i18n-title="fmtStrike" data-i18n-aria="fmtStrike" title="Закреслений (Ctrl+Shift+X)">S</button>
+    <button type="button" data-fmt="c" data-i18n-title="fmtCode" data-i18n-aria="fmtCode" title="Код (Ctrl+E)">&lt;/&gt;</button>
+    <span class="sep" aria-hidden="true"></span>
+    <button type="button" class="fmt-prio" id="fmtPrio" data-p="0">!</button>
   </div>
 
   <div class="toast" id="toast" role="status" hidden>
@@ -990,9 +1126,10 @@
         <input type="checkbox">
         <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
       </label>
+      <button class="prio" type="button" tabindex="-1"></button>
       <div class="text"><span></span></div>
-      <button class="icon-btn move" type="button" aria-label="Перенести задачу" title="Перенести на інший день" data-i18n-aria="moveTask" data-i18n-title="moveTitle" aria-haspopup="menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><path d="M21 11V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"/><path d="M3 10h18"/><path d="M15 18h7"/><path d="m19 15 3 3-3 3"/></svg>
+      <button class="icon-btn move" type="button" aria-label="Дії із задачею" title="Важливість, перенесення" data-i18n-aria="taskActions" data-i18n-title="taskActionsTitle" aria-haspopup="menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
       </button>
       <button class="icon-btn del" type="button" aria-label="Видалити задачу" title="Видалити" data-i18n-aria="deleteTask" data-i18n-title="delete">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
@@ -1051,6 +1188,15 @@
       relDay: { 0: "сьогодні", 1: "завтра", 2: "післязавтра" },
       toTomorrow: "На завтра", toNextDay: "На наступний день",
       movedTo: (d) => `Перенесено на ${d}`, show: "Показати",
+
+      taskActions: "Дії із задачею", taskActionsTitle: "Важливість, перенесення",
+      priority: "Важливість", prioNames: ["без важливості", "низька", "середня", "висока"],
+      prioAria: (text, name) => `${text}, важливість: ${name}`,
+      prioIs: (name) => `Важливість: ${name}`,
+      prioBadge: (name) => `Важливість: ${name}. Натисніть, щоб змінити (Alt+1…3, Alt+0 — зняти)`,
+      fmtBar: "Форматування", fmtBold: "Жирний (Ctrl+B)", fmtItalic: "Курсив (Ctrl+I)",
+      fmtUnderline: "Підкреслений (Ctrl+U)", fmtStrike: "Закреслений (Ctrl+Shift+X)", fmtCode: "Код (Ctrl+E)",
+      fmtPrio: (name) => `Важливість: ${name} (на початку тексту: ! / !! / !!!)`,
 
       ranks: ["Новачок", "Учень", "Трудяга", "Майстер справ", "Ветеран", "Гуру продуктивності", "Легенда"],
       ach: {
@@ -1164,6 +1310,15 @@
       relDay: { 0: "today", 1: "tomorrow", 2: "the day after tomorrow" },
       toTomorrow: "Tomorrow", toNextDay: "Next day",
       movedTo: (d) => `Moved to ${d}`, show: "Show",
+
+      taskActions: "Task actions", taskActionsTitle: "Priority, move",
+      priority: "Priority", prioNames: ["no priority", "low", "medium", "high"],
+      prioAria: (text, name) => `${text}, priority: ${name}`,
+      prioIs: (name) => `Priority: ${name}`,
+      prioBadge: (name) => `Priority: ${name}. Click to change (Alt+1…3, Alt+0 to clear)`,
+      fmtBar: "Formatting", fmtBold: "Bold (Ctrl+B)", fmtItalic: "Italic (Ctrl+I)",
+      fmtUnderline: "Underline (Ctrl+U)", fmtStrike: "Strikethrough (Ctrl+Shift+X)", fmtCode: "Code (Ctrl+E)",
+      fmtPrio: (name) => `Priority: ${name} (at the start of the text: ! / !! / !!!)`,
 
       ranks: ["Novice", "Apprentice", "Hard worker", "Task master", "Veteran", "Productivity guru", "Legend"],
       ach: {
@@ -1279,10 +1434,13 @@
   const dirty = new Set(); // ids changed on this device and not yet uploaded
 
   // tasks of one day: unfinished first, each group in the user's order
+  // Unfinished tasks go by priority (!!! first), each priority in the user's order;
+  // finished ones keep the order they were ticked in, whatever their priority.
+  const rank = (t) => (t.done ? 0 : t.p || 0);
   function dayTasks(key) {
     return Object.values(state.items)
       .filter(t => !t.deleted && t.day === key)
-      .sort((a, b) => (a.done - b.done) || (a.o - b.o) || (a.id < b.id ? -1 : 1));
+      .sort((a, b) => (a.done - b.done) || (rank(b) - rank(a)) || (a.o - b.o) || (a.id < b.id ? -1 : 1));
   }
 
   function touch(task, patch) {
@@ -1412,27 +1570,86 @@
     renderGame();
   }
 
+  // ---------- formatted text ----------
+  // Tasks keep plain text with light markup, so it syncs as is and stays readable anywhere:
+  // **bold**, *italic*, __underline__, ~~strikethrough~~, `code`. Rendered as DOM nodes, never as HTML.
+  const RICH = /`([^`\n]+)`|\*\*(.+?)\*\*|__(.+?)__|~~(.+?)~~|\*(?![\s*])([^*]+?)\*/g;
+  const MARKS = { b: "**", i: "*", u: "__", s: "~~", c: "`" };
+
+  function richNodes(text) {
+    const out = [];
+    const re = new RegExp(RICH.source, "g");
+    let last = 0, m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) out.push(document.createTextNode(text.slice(last, m.index)));
+      const [whole, code, bold, under, strike, italic] = m;
+      let node;
+      if (code !== undefined) {
+        node = el("code", { textContent: code });
+      } else {
+        node = document.createElement(bold !== undefined ? "strong" : under !== undefined ? "u" : strike !== undefined ? "s" : "em");
+        node.append(...richNodes(bold ?? under ?? strike ?? italic));
+      }
+      out.push(node);
+      last = m.index + whole.length;
+    }
+    if (last < text.length) out.push(document.createTextNode(text.slice(last)));
+    return out;
+  }
+  function renderRich(span, text) {
+    if (span.dataset.raw === text) return;
+    span.replaceChildren(...richNodes(text));
+    span.dataset.raw = text;
+  }
+  // the text without markup: for screen readers, hints and tooltips
+  function plainText(text) {
+    const span = document.createElement("span");
+    span.append(...richNodes(text));
+    return span.textContent;
+  }
+
+  // "!!! Call the bank" → priority 3, "Call the bank"
+  function splitPriority(text) {
+    const m = text.match(/^(!{1,3})\s+(\S.*)$/s);
+    return m ? { p: m[1].length, text: m[2] } : { p: null, text };
+  }
+  const prioName = (p) => t("prioNames")[p || 0];
+
   // ---------- list ----------
   function makeItem(task) {
     const li = tpl.content.firstElementChild.cloneNode(true);
     li.dataset.id = task.id;
-    li.classList.toggle("done", task.done);
-    const cb = li.querySelector("input");
-    cb.checked = task.done;
-    cb.setAttribute("aria-label", task.text);
-    li.querySelector(".text span").textContent = task.text;
+    refreshItem(li, task);
     return li;
   }
 
-  // keep a row in step with its task (after a change from the other device)
+  // keep a row in step with its task (also after a change from the other device)
   function refreshItem(li, task) {
     li.classList.toggle("done", task.done);
+    const p = task.p || 0;
+    if (p) li.dataset.p = p; else delete li.dataset.p;
+    const badge = li.querySelector(".prio");
+    badge.textContent = "!".repeat(p);
+    badge.title = t("prioBadge", prioName(p));
+    badge.setAttribute("aria-label", t("prioIs", prioName(p)));
     const cb = li.querySelector("input");
     cb.checked = task.done;
-    cb.setAttribute("aria-label", task.text);
+    const plain = plainText(task.text);
+    cb.setAttribute("aria-label", p ? t("prioAria", plain, prioName(p)) : plain);
     const textEl = li.querySelector(".text");
     const span = textEl.querySelector("span");
-    if (!textEl.isContentEditable && span && span.textContent !== task.text) span.textContent = task.text;
+    if (!textEl.isContentEditable && span) renderRich(span, task.text);
+  }
+
+  function setPriority(task, p) {
+    if ((task.p || 0) === p) return;
+    // end of its new priority group
+    const o = maxOrder(state.tasks.filter(t => t !== task && !t.done && (t.p || 0) === p)) + 1;
+    touch(task, task.done ? { p } : { p, o });
+    sync({ animate: true }); // the row slides to its priority group
+    if (!cal.hidden) renderCalendar();
+    announce(t("prioIs", prioName(p)));
+    save();
   }
 
   const find = (id) => state.items[id];
@@ -1528,10 +1745,12 @@
     $("announce").textContent = msg;
   }
 
-  function addTask(text) {
+  function addTask(raw) {
     flushSync();
+    const { p, text } = splitPriority(raw);
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     const task = { id, text, done: false, day: view };
+    if (p) task.p = p;
     // end of the unfinished group, above finished ones
     touch(task, { o: maxOrder(state.tasks.filter(t => !t.done)) + 1 });
     state.items[id] = task;
@@ -1546,7 +1765,7 @@
     if (!text) return;
     addTask(text);
     input.value = "";
-    addBtn.disabled = true;
+    input.dispatchEvent(new Event("input")); // disables "Add", hides the formatting bar
     input.focus();
   });
   input.addEventListener("input", () => { addBtn.disabled = !input.value.trim(); });
@@ -1593,8 +1812,13 @@
   // Rows only move within their own group (unfinished / finished).
   let drag = null;
 
+  // rows a task can be dragged among: same done state and, while unfinished, same priority
+  // (the list is sorted by priority, so a task dropped among others would jump back)
   function groupRows(task) {
-    return [...list.querySelectorAll(".task")].filter(li => find(li.dataset.id).done === task.done);
+    return [...list.querySelectorAll(".task")].filter(li => {
+      const other = find(li.dataset.id);
+      return other.done === task.done && rank(other) === rank(task);
+    });
   }
 
   list.addEventListener("pointerdown", (e) => {
@@ -1737,14 +1961,12 @@
       textEl.removeEventListener("blur", onBlur);
       textEl.removeEventListener("keydown", onKey);
       textEl.contentEditable = "false";
-      const value = textEl.textContent.replace(/\s+/g, " ").trim();
+      hideFmtBar();
+      const { p, text: value } = splitPriority(textEl.textContent.replace(/\s+/g, " ").trim());
       const task = find(li.dataset.id); // the object may have been replaced by a sync meanwhile
-      if (commit && value && value !== task.text) touch(task, { text: value });
-      textEl.innerHTML = "";
-      const span = document.createElement("span");
-      span.textContent = task.text;
-      textEl.append(span);
-      li.querySelector("input").setAttribute("aria-label", task.text);
+      if (commit && value && (value !== task.text || (p && p !== task.p))) touch(task, p ? { text: value, p } : { text: value });
+      textEl.replaceChildren(document.createElement("span"));
+      sync({ animate: true }); // redraws the text; a new "!" prefix moves the row to its priority group
       save();
     };
     const onBlur = () => finish(true);
@@ -1754,10 +1976,166 @@
     };
     textEl.addEventListener("blur", onBlur);
     textEl.addEventListener("keydown", onKey);
+    showFmtBar(textEl);
   }
   list.addEventListener("dblclick", (e) => {
     const t = e.target.closest(".text");
     if (t) startEdit(t);
+  });
+
+  // ---------- formatting bar and shortcuts ----------
+  // Works on the new-task field (<input>) and on a task being edited (contenteditable, plain text).
+  const fmtBar = $("fmtBar");
+  let fmtTarget = null;
+
+  function selectionIn(target) {
+    if (target === input) return [input.selectionStart, input.selectionEnd];
+    const sel = getSelection();
+    if (!sel.rangeCount || !target.contains(sel.anchorNode)) {
+      const end = target.textContent.length;
+      return [end, end];
+    }
+    const offset = (node, off) => {
+      const r = document.createRange();
+      r.selectNodeContents(target);
+      r.setEnd(node, off);
+      return r.toString().length;
+    };
+    const range = sel.getRangeAt(0);
+    return [offset(range.startContainer, range.startOffset), offset(range.endContainer, range.endOffset)];
+  }
+
+  function setTextAndSelection(target, text, s, e) {
+    if (target === input) {
+      input.value = text;
+      input.setSelectionRange(s, e);
+      input.dispatchEvent(new Event("input"));
+      return;
+    }
+    target.textContent = text;
+    const node = target.firstChild || target.appendChild(document.createTextNode(""));
+    const range = document.createRange();
+    range.setStart(node, Math.min(s, node.length));
+    range.setEnd(node, Math.min(e, node.length));
+    const sel = getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  // wrap the selection in a mark (or unwrap it if it already is); with no selection, insert a pair
+  function toggleMark(target, kind) {
+    const mark = MARKS[kind], n = mark.length;
+    const text = target === input ? input.value : target.textContent;
+    let [s, e] = selectionIn(target);
+    while (s < e && /\s/.test(text[s])) s++;          // keep spaces outside the marks
+    while (e > s && /\s/.test(text[e - 1])) e--;
+    let out, ns, ne;
+    if (text.slice(s - n, s) === mark && text.slice(e, e + n) === mark) {
+      out = text.slice(0, s - n) + text.slice(s, e) + text.slice(e + n);
+      ns = s - n; ne = e - n;
+    } else if (e - s >= 2 * n && text.slice(s, s + n) === mark && text.slice(e - n, e) === mark) {
+      out = text.slice(0, s) + text.slice(s + n, e - n) + text.slice(e);
+      ns = s; ne = e - 2 * n;
+    } else {
+      out = text.slice(0, s) + mark + text.slice(s, e) + mark + text.slice(e);
+      ns = s + n; ne = e + n;
+    }
+    setTextAndSelection(target, out, ns, ne);
+  }
+
+  // priority while typing: the new task's "!" prefix, or the edited task itself
+  function currentPrio(target) {
+    if (target === input) {
+      const m = input.value.match(/^(!{1,3})(?=\s|$)/);
+      return m ? m[1].length : 0;
+    }
+    const task = find(target.closest(".task").dataset.id);
+    return task.p || 0;
+  }
+  function cyclePrio(target) {
+    const next = (currentPrio(target) + 1) % 4;
+    if (target === input) {
+      const rest = input.value.replace(/^!{1,3}\s*/, "");
+      const caret = input.selectionStart - (input.value.length - rest.length);
+      const prefix = next ? "!".repeat(next) + " " : "";
+      setTextAndSelection(input, prefix + rest, Math.max(prefix.length, caret + prefix.length), Math.max(prefix.length, caret + prefix.length));
+    } else {
+      setPriority(find(target.closest(".task").dataset.id), next);
+    }
+    updateFmtPrio();
+  }
+  function updateFmtPrio() {
+    if (!fmtTarget) return;
+    const p = currentPrio(fmtTarget);
+    const btn = $("fmtPrio");
+    btn.dataset.p = p;
+    btn.textContent = p ? "!".repeat(p) : "!";
+    btn.title = t("fmtPrio", prioName(p));
+    btn.setAttribute("aria-label", t("fmtPrio", prioName(p)));
+  }
+
+  function showFmtBar(target) {
+    fmtTarget = target;
+    fmtBar.hidden = false;
+    updateFmtPrio();
+    // above the text being edited, or just under the new-task field
+    const box = (target === input ? $("addForm") : target).getBoundingClientRect();
+    const bar = fmtBar.getBoundingClientRect();
+    const top = target === input ? box.bottom + 4 : (box.top - bar.height - 6 > 8 ? box.top - bar.height - 6 : box.bottom + 6);
+    fmtBar.style.top = `${top}px`;
+    fmtBar.style.left = `${Math.max(8, Math.min(box.left, innerWidth - bar.width - 8))}px`;
+  }
+  function hideFmtBar() {
+    fmtBar.hidden = true;
+    fmtTarget = null;
+  }
+
+  // the bar must not take the focus away from the text (that would end the edit / hide the keyboard)
+  fmtBar.addEventListener("pointerdown", (e) => e.preventDefault());
+  fmtBar.addEventListener("mousedown", (e) => e.preventDefault());
+  fmtBar.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn || !fmtTarget) return;
+    if (btn.id === "fmtPrio") cyclePrio(fmtTarget);
+    else toggleMark(fmtTarget, btn.dataset.fmt);
+  });
+
+  // for the new-task field the bar appears once there is something typed (not on every focus)
+  const syncInputBar = () => {
+    if (document.activeElement === input && input.value) {
+      if (fmtTarget !== input) showFmtBar(input); else updateFmtPrio();
+    } else if (fmtTarget === input) {
+      hideFmtBar();
+    }
+  };
+  input.addEventListener("input", syncInputBar);
+  input.addEventListener("focus", syncInputBar);
+  input.addEventListener("blur", () => { if (fmtTarget === input) hideFmtBar(); });
+
+  const FMT_KEYS = { b: "b", i: "i", u: "u", e: "c" }; // Ctrl+B / I / U / E, Ctrl+Shift+X for strikethrough
+  document.addEventListener("keydown", (e) => {
+    if (!fmtTarget || !(e.ctrlKey || e.metaKey) || e.altKey) return;
+    const k = e.key.toLowerCase();
+    const kind = e.shiftKey ? (k === "x" ? "s" : null) : FMT_KEYS[k];
+    if (!kind) return;
+    e.preventDefault(); // also stops the browser's own bold/italic in the editable text
+    toggleMark(fmtTarget, kind);
+  }, true);
+
+  // ---------- priority: badge, Alt+0…3 ----------
+  list.addEventListener("click", (e) => {
+    const badge = e.target.closest(".prio");
+    if (!badge) return;
+    const task = find(badge.closest(".task").dataset.id);
+    setPriority(task, ((task.p || 0) + 1) % 4);
+  });
+  list.addEventListener("keydown", (e) => {
+    if (!e.altKey || e.ctrlKey || !/^[0-3]$/.test(e.key)) return;
+    const li = e.target.closest(".task");
+    if (!li) return;
+    e.preventDefault();
+    setPriority(find(li.dataset.id), Number(e.key));
+    if (fmtTarget) updateFmtPrio();
   });
 
   $("clearBtn").addEventListener("click", () => {
@@ -1826,19 +2204,20 @@
       return el;
     });
 
-    const perDay = {}; // day → { total, done }
+    const perDay = {}; // day → { total, done, high: unfinished high-priority tasks }
     for (const t of Object.values(state.items)) {
       if (t.deleted) continue;
-      const c = (perDay[t.day] ||= { total: 0, done: 0 });
+      const c = (perDay[t.day] ||= { total: 0, done: 0, high: 0 });
       c.total++;
       if (t.done) c.done++;
+      else if (t.p === 3) c.high++;
     }
 
     const offset = (first.getDay() + 6) % 7; // weeks start on Monday
     let key = addDays(calMonth, -offset);
     for (let i = 0; i < 42; i++, key = addDays(key, 1)) {
       const d = dateOf(key);
-      const { total, done } = perDay[key] || { total: 0, done: 0 };
+      const { total, done, high } = perDay[key] || { total: 0, done: 0, high: 0 };
       const b = document.createElement("button");
       b.type = "button";
       b.className = "cal-day";
@@ -1850,6 +2229,7 @@
       b.classList.toggle("selected", key === view);
       b.classList.toggle("has", total > 0);
       b.classList.toggle("all-done", total > 0 && done === total);
+      b.classList.toggle("high", high > 0);
       // the task is already there; stays focusable so arrow keys can pass over it
       if (calPick && key === find(calPick).day) b.setAttribute("aria-disabled", "true");
       let label = cap(d.toLocaleDateString(locale(), { weekday: "long", day: "numeric", month: "long" }));
@@ -1876,8 +2256,9 @@
     const hint = $("calHint");
     hint.hidden = !pickFor;
     if (pickFor) {
-      hint.replaceChildren(t("moveHint")[0], el("strong", { textContent: find(pickFor).text }), t("moveHint")[1]);
-      hint.title = find(pickFor).text;
+      const plain = plainText(find(pickFor).text);
+      hint.replaceChildren(t("moveHint")[0], el("strong", { textContent: plain }), t("moveHint")[1]);
+      hint.title = plain;
     }
     calFocus = pickFor ? addDays(view, 1) : view;
     calMonth = monthStart(calFocus);
@@ -1970,6 +2351,10 @@
     $("moveNextDate").textContent = dateOf(next).toLocaleDateString(locale(), { weekday: "short", day: "numeric", month: "short" });
     menuFor = { id: task.id, button };
     button.setAttribute("aria-expanded", "true");
+    moveMenu.querySelectorAll(".prio-row button").forEach(b => {
+      b.setAttribute("aria-checked", String(Number(b.dataset.p) === (task.p || 0)));
+      b.setAttribute("aria-label", t("prioIs", prioName(Number(b.dataset.p))));
+    });
 
     // under the button, right-aligned to it, flipped up if there's no room below
     moveMenu.hidden = false;
@@ -1999,6 +2384,13 @@
     const id = menuFor.id;
     closeMoveMenu(false);
     moveTask(id, nextDayFor(find(id)));
+  });
+  moveMenu.querySelector(".prio-row").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    const id = menuFor.id;
+    closeMoveMenu();
+    setPriority(find(id), Number(b.dataset.p));
   });
   $("movePick").addEventListener("click", () => {
     const id = menuFor.id;
